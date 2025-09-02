@@ -2,8 +2,6 @@
 
 // UI 초기화
 function initializeUI() {
-  console.log('[WPlace+] UI 초기화 시작');
-  
   // 섹션 상태 복원
   restoreSectionStates();
   
@@ -12,8 +10,6 @@ function initializeUI() {
   setupToggleListeners();
   setupButtonListeners();
   setupColorListeners();
-  
-  console.log('[WPlace+] UI 초기화 완료');
 }
 
 // 섹션 상태 복원
@@ -67,8 +63,6 @@ function setupSectionListeners() {
         } else if (sectionId === 'section-2') {
           WPlacePlusCore.storage.set('section2Open', !isOpen);
         }
-        
-        console.log(`[WPlace+] 섹션 ${sectionId} ${!isOpen ? '열림' : '닫힘'}`);
       });
     }
   });
@@ -86,7 +80,6 @@ function setupToggleListeners() {
     autoSaveToggle.addEventListener('change', (e) => {
       const isEnabled = e.target.checked;
       WPlacePlusCore.storage.set('autoSaveEnabled', isEnabled);
-      console.log(`[WPlace+] 자동 저장 ${isEnabled ? '활성화' : '비활성화'}`);
     });
   }
   
@@ -100,7 +93,6 @@ function setupToggleListeners() {
     previewToggle.addEventListener('change', (e) => {
       const isEnabled = e.target.checked;
       WPlacePlusCore.storage.set('previewEnabled', isEnabled);
-      console.log(`[WPlace+] 실시간 미리보기 ${isEnabled ? '활성화' : '비활성화'}`);
     });
   }
 }
@@ -111,8 +103,6 @@ function setupButtonListeners() {
   const saveBtn = document.getElementById('save-btn');
   if (saveBtn) {
     saveBtn.addEventListener('click', () => {
-      console.log('[WPlace+] 저장 버튼 클릭');
-      
       // 버튼 애니메이션
       saveBtn.style.transform = 'scale(0.95)';
       setTimeout(() => {
@@ -127,8 +117,6 @@ function setupButtonListeners() {
   const resetBtn = document.getElementById('reset-btn');
   if (resetBtn) {
     resetBtn.addEventListener('click', () => {
-      console.log('[WPlace+] 초기화 버튼 클릭');
-      
       // 확인 대화상자
       if (confirm('모든 설정을 초기화하시겠습니까?')) {
         // 토글 상태 초기화
@@ -147,8 +135,6 @@ function setupButtonListeners() {
         
         // 색상 초기화
         resetColors();
-        
-        console.log('[WPlace+] 설정이 초기화되었습니다.');
       }
     });
   }
@@ -181,7 +167,6 @@ function setupColorListeners() {
         hexInput.value = color;
         preview.style.backgroundColor = color;
         WPlacePlusCore.storage.set(mapping.picker, color);
-        console.log(`[WPlace+] ${mapping.picker} 색상 변경:`, color);
       });
       
       // HEX 입력 변경 시
@@ -191,7 +176,6 @@ function setupColorListeners() {
           picker.value = hex;
           preview.style.backgroundColor = hex;
           WPlacePlusCore.storage.set(mapping.picker, hex);
-          console.log(`[WPlace+] ${mapping.picker} HEX 변경:`, hex);
         }
       });
       
@@ -224,8 +208,6 @@ function setupColorListeners() {
           setTimeout(() => {
             btn.style.transform = '';
           }, 150);
-          
-          console.log(`[WPlace+] 기본 색상이 ${color}로 변경되었습니다.`);
         }
       }
     });
@@ -258,8 +240,6 @@ function resetColors() {
 function isValidHex(hex) {
   return /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hex);
 }
-
-
 
 // 전역에서 접근 가능하도록 설정
 window.WPlacePlusUI = {

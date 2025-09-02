@@ -15,26 +15,23 @@
         "https://wplace.live/*"
       ],
       "js": [
-        "core.js",
-        "helpers.js",
-        "modal.js",
-        "drag.js",
-        "resize.js",
-        "controls.js",
-        "keyboard.js",
-        "ui.js",
-        "app.js"
+        "js/core/core.js",
+        "js/utils/helpers.js",
+        "js/features/modal.js",
+        "js/features/interactions.js",
+        "js/features/ui.js",
+        "js/app.js"
       ],
       "css": [
-        "variables.css",
-        "modal.css",
-        "header.css",
-        "content.css",
-        "sections.css",
-        "controls.css",
-        "colors.css",
-        "resize.css",
-        "responsive.css"
+        "css/base/variables.css",
+        "css/base/modal.css",
+        "css/base/responsive.css",
+        "css/layout/header.css",
+        "css/layout/content.css",
+        "css/components/sections.css",
+        "css/components/controls.css",
+        "css/components/colors.css",
+        "css/components/resize.css"
       ],
       "run_at": "document_start"
     }

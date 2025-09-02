@@ -1,4 +1,4 @@
-// WPlace+ 핵심 상수 및 스토리지 관리
+// WPlace+ 핵심 모듈 - 상수, 스토리지, 키보드 이벤트
 
 const VERSION = '0.0.1';
 const STORAGE_PREFIX = 'wplace_plus_';
@@ -43,9 +43,57 @@ const storage = {
   }
 };
 
+// 키보드 이벤트 관리
+class KeyboardManager {
+  constructor() {
+    this.rKeyPressCount = 0;
+    this.rKeyTimeout = null;
+  }
+
+  // 키보드 이벤트 처리
+  handleKeyDown(e) {
+    // R키 더블클릭으로 초기화
+    if (e.key === 'r' || e.key === 'R') {
+      this.rKeyPressCount++;
+      
+      // 기존 타이머 클리어
+      if (this.rKeyTimeout) {
+        clearTimeout(this.rKeyTimeout);
+      }
+      
+      if (this.rKeyPressCount === 2) {
+        // R키 더블클릭 감지
+        if (window.WPlacePlusControls && window.WPlacePlusControls.resetModalPosition) {
+          window.WPlacePlusControls.resetModalPosition();
+        }
+        this.rKeyPressCount = 0;
+      } else {
+        // 0.5초 후 카운터 리셋
+        this.rKeyTimeout = setTimeout(() => {
+          this.rKeyPressCount = 0;
+        }, 500);
+      }
+    }
+  }
+
+  // 키보드 이벤트 리스너 설정
+  setupListeners() {
+    document.addEventListener('keydown', this.handleKeyDown.bind(this));
+  }
+
+  // 키보드 이벤트 리스너 제거
+  removeListeners() {
+    document.removeEventListener('keydown', this.handleKeyDown.bind(this));
+  }
+}
+
+// 키보드 매니저 인스턴스
+const keyboardManager = new KeyboardManager();
+
 // 전역에서 접근 가능하도록 설정
 window.WPlacePlusCore = {
   VERSION,
   STORAGE_PREFIX,
-  storage
+  storage,
+  keyboard: keyboardManager
 };

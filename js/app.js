@@ -15,8 +15,6 @@
 
   // 모달 생성 및 모든 이벤트 설정
   function createModal() {
-    console.log('[WPlace+] 애플리케이션 초기화 시작');
-    
     // 모달 생성
     const modal = WPlacePlusModal.createModal();
     if (!modal) {
@@ -28,7 +26,7 @@
     WPlacePlusDrag.setupDragListeners();
     WPlacePlusResize.setupResizeListeners();
     WPlacePlusControls.setupControlListeners();
-    WPlacePlusKeyboard.setupKeyboardListeners();
+    WPlacePlusCore.keyboard.setupListeners();
     
     // 최소화 상태 복원
     WPlacePlusControls.restoreMinimizeState();
@@ -37,24 +35,18 @@
     setTimeout(() => {
       WPlacePlusUI.initializeUI();
     }, 100);
-    
-    console.log('[WPlace+] 애플리케이션 초기화 완료');
     return modal;
   }
 
   // 애플리케이션 정리
   function cleanup() {
-    console.log('[WPlace+] 애플리케이션 정리 시작');
-    
     // 모든 이벤트 리스너 제거
     WPlacePlusDrag.removeDragListeners();
     WPlacePlusResize.removeResizeListeners();
-    WPlacePlusKeyboard.removeKeyboardListeners();
+    WPlacePlusCore.keyboard.removeListeners();
     
     // 모달 제거
     WPlacePlusModal.removeModal();
-    
-    console.log('[WPlace+] 애플리케이션 정리 완료');
   }
 
   // 전역 API 노출
