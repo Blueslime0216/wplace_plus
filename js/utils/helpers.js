@@ -1,43 +1,46 @@
 // WPlace+ 유틸리티 헬퍼 함수들
 
-// UI 컨텐츠 생성
+// UI 컨텐츠 생성 (다국어 지원)
 function generateUIContent() {
+  // 언어 관리자가 없으면 기본 한국어 사용
+  const t = window.WPlacePlusLanguage ? window.WPlacePlusLanguage.t : (key) => key;
+  
   return `
     <!-- 첫 번째 섹션: 토글 요소와 버튼 -->
     <details class="wplace-section" id="section-1">
       <summary class="section-summary">
         <span class="section-icon">⚙️</span>
-        <span class="section-title">설정 및 도구</span>
+        <span class="section-title">${t('settings')}</span>
         <span class="section-arrow">▼</span>
       </summary>
       <div class="section-content">
         <div class="control-group">
           <div class="control-row">
-            <label class="control-label">자동 저장</label>
+            <label class="control-label">${t('autoSave')}</label>
             <label class="toggle-switch">
               <input type="checkbox" id="auto-save-toggle" class="toggle-input">
               <span class="toggle-slider"></span>
             </label>
-            <span class="control-description">작업 내용 자동 저장</span>
+            <span class="control-description">${t('autoSave')}</span>
           </div>
           
           <div class="control-row">
-            <label class="control-label">실시간 미리보기</label>
+            <label class="control-label">${t('preview')}</label>
             <label class="toggle-switch">
               <input type="checkbox" id="preview-toggle" class="toggle-input">
               <span class="toggle-slider"></span>
             </label>
-            <span class="control-description">변경사항 실시간 표시</span>
+            <span class="control-description">${t('preview')}</span>
           </div>
           
           <div class="button-group">
             <button class="action-btn primary-btn" id="save-btn">
               <span class="btn-icon">💾</span>
-              저장하기
+              ${t('save')}
             </button>
             <button class="action-btn secondary-btn" id="reset-btn">
               <span class="btn-icon">🔄</span>
-              초기화
+              ${t('reset')}
             </button>
           </div>
         </div>
@@ -48,13 +51,13 @@ function generateUIContent() {
     <details class="wplace-section" id="section-2">
       <summary class="section-summary">
         <span class="section-icon">🎨</span>
-        <span class="section-title">색상 설정</span>
+        <span class="section-title">${t('colorSettings')}</span>
         <span class="section-arrow">▼</span>
       </summary>
       <div class="section-content">
         <div class="color-group">
           <div class="color-row">
-            <label class="color-label">기본 색상</label>
+            <label class="color-label">${t('primaryColor')}</label>
             <div class="color-input-group">
               <input type="color" id="primary-color" class="color-picker" value="#4A90E2">
               <input type="text" id="primary-hex" class="hex-input" placeholder="#4A90E2" maxlength="7">
@@ -63,7 +66,7 @@ function generateUIContent() {
           </div>
           
           <div class="color-row">
-            <label class="color-label">보조 색상</label>
+            <label class="color-label">${t('secondaryColor')}</label>
             <div class="color-input-group">
               <input type="color" id="secondary-color" class="color-picker" value="#7BB3F0">
               <input type="text" id="secondary-hex" class="hex-input" placeholder="#7BB3F0" maxlength="7">
@@ -72,7 +75,7 @@ function generateUIContent() {
           </div>
           
           <div class="color-row">
-            <label class="color-label">배경 색상</label>
+            <label class="color-label">${t('backgroundColor')}</label>
             <div class="color-input-group">
               <input type="color" id="background-color" class="color-picker" value="#E6F2FF">
               <input type="text" id="background-hex" class="hex-input" placeholder="#E6F2FF" maxlength="7">
@@ -81,7 +84,7 @@ function generateUIContent() {
           </div>
           
           <div class="color-presets">
-            <div class="preset-label">빠른 색상</div>
+            <div class="preset-label">${t('presetColors')}</div>
             <div class="preset-colors">
               <button class="preset-color" data-color="#4A90E2" style="background: #4A90E2;" title="기본 하늘"></button>
               <button class="preset-color" data-color="#7BB3F0" style="background: #7BB3F0;" title="연한 하늘"></button>

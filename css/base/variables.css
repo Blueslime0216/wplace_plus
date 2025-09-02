@@ -8,6 +8,14 @@
   --color-sky-very-light: #E6F2FF;
   --color-sky-ultra-light: #F0F8FF;
   
+  /* 액센트 컬러 */
+  --color-accent-emerald: #10B981;
+  --color-accent-emerald-light: #34D399;
+  --color-accent-amber: #F59E0B;
+  --color-accent-amber-light: #FBBF24;
+  --color-accent-purple: #8B5CF6;
+  --color-accent-purple-light: #A78BFA;
+  
   /* 텍스트 색상 */
   --color-text-primary: #2D3748;
   --color-text-secondary: #4A5568;

@@ -62,6 +62,23 @@ function createModal() {
         <span class="header-version">v${WPlacePlusCore.VERSION}</span>
       </div>
       <div class="header-controls">
+        <div class="language-dropdown">
+          <button class="language-btn" id="language-btn">
+            <span class="language-flag">🇰🇷</span>
+            <span class="language-text">한국어</span>
+            <span class="dropdown-arrow">▼</span>
+          </button>
+          <div class="language-menu" id="language-menu">
+            <div class="language-option" data-lang="ko">
+              <span class="language-flag">🇰🇷</span>
+              <span class="language-text">한국어</span>
+            </div>
+            <div class="language-option" data-lang="en">
+              <span class="language-flag">🇺🇸</span>
+              <span class="language-text">English</span>
+            </div>
+          </div>
+        </div>
         <button class="header-btn minimize-btn" title="최소화">−</button>
       </div>
     </div>

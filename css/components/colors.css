@@ -10,81 +10,83 @@
 .color-row {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 12px;
-  background: var(--color-bg-color-row);
-  border-radius: 12px;
-  border: 1px solid var(--color-border-color-row);
+  gap: 12px;
+  padding: 12px 16px;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
   transition: all 0.2s ease;
-  backdrop-filter: blur(5px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .color-row:hover {
-  background: rgba(255, 255, 255, 0.5);
-  border-color: var(--color-border-color-row-hover);
+  background: #f8fafc;
+  border-color: #cbd5e1;
 }
 
 .color-label {
-  min-width: 100px;
-  font-size: 14px;
+  min-width: 90px;
+  font-size: 13px;
   font-weight: 500;
-  color: var(--color-text-primary);
+  color: #374151;
+  line-height: 1.3;
 }
 
 .color-input-group {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   flex: 1;
 }
 
 .color-picker {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
-  box-shadow: var(--color-shadow-color-picker);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
+  border: 1px solid #d1d5db;
 }
 
 .color-picker:hover {
-  transform: scale(1.05);
-  box-shadow: var(--color-shadow-color-picker-hover);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-color: #9ca3af;
 }
 
 .hex-input {
   flex: 1;
-  max-width: 120px;
-  padding: 8px 12px;
-  border: 1px solid var(--color-border-input);
-  border-radius: 8px;
-  font-size: 14px;
+  max-width: 110px;
+  padding: 6px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 12px;
   font-family: 'Courier New', monospace;
-  background: var(--color-bg-input);
+  font-weight: 500;
+  background: #ffffff;
   transition: all 0.2s ease;
-  backdrop-filter: blur(5px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .hex-input:focus {
   outline: none;
-  border-color: var(--color-border-input-focus);
-  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
-  background: var(--color-bg-input-focus);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
 }
 
 .color-preview {
   width: 24px;
   height: 24px;
-  border-radius: 6px;
-  border: 2px solid var(--color-border-color-preview);
-  box-shadow: var(--color-shadow-color-preview);
+  border-radius: 4px;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
 }
 
 .color-preview:hover {
-  transform: scale(1.1);
-  border-color: var(--color-border-color-preview-hover);
+  border-color: #9ca3af;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* 색상 프리셋 스타일 */
@@ -108,36 +110,19 @@
 }
 
 .preset-color {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: var(--color-shadow-preset-color);
-  position: relative;
-  overflow: hidden;
-}
-
-.preset-color:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--color-overlay-preset-color);
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  border: 1px solid #d1d5db;
 }
 
 .preset-color:hover {
-  transform: scale(1.1) translateY(-2px);
-  box-shadow: var(--color-shadow-preset-color-hover);
-}
-
-.preset-color:hover:before {
-  transform: translateX(100%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-color: #9ca3af;
 }
 
 .preset-color:active {

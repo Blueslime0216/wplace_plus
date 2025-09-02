@@ -19,7 +19,7 @@
   color: var(--color-text-primary);
   user-select: none;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
+  overflow: visible;
   /* 초기에는 보이지 않음 */
   opacity: 0;
   visibility: hidden;

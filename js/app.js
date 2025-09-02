@@ -34,6 +34,10 @@
     // UI 초기화 (모달 생성 후 약간의 지연을 두고 실행)
     setTimeout(() => {
       WPlacePlusUI.initializeUI();
+      // 언어 관리자 초기화
+      if (window.WPlacePlusLanguage) {
+        WPlacePlusLanguage.initialize();
+      }
     }, 100);
     return modal;
   }

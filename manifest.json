@@ -20,6 +20,7 @@
         "js/features/modal.js",
         "js/features/interactions.js",
         "js/features/ui.js",
+        "js/features/language.js",
         "js/app.js"
       ],
       "css": [
