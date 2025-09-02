@@ -1,0 +1,145 @@
+/* WPlace+ 색상 관련 스타일 */
+
+/* 색상 그룹 스타일 */
+.color-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.color-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  background: var(--color-bg-color-row);
+  border-radius: 12px;
+  border: 1px solid var(--color-border-color-row);
+  transition: all 0.2s ease;
+  backdrop-filter: blur(5px);
+}
+
+.color-row:hover {
+  background: rgba(255, 255, 255, 0.5);
+  border-color: var(--color-border-color-row-hover);
+}
+
+.color-label {
+  min-width: 100px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.color-input-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.color-picker {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: var(--color-shadow-color-picker);
+  transition: all 0.2s ease;
+}
+
+.color-picker:hover {
+  transform: scale(1.05);
+  box-shadow: var(--color-shadow-color-picker-hover);
+}
+
+.hex-input {
+  flex: 1;
+  max-width: 120px;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border-input);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'Courier New', monospace;
+  background: var(--color-bg-input);
+  transition: all 0.2s ease;
+  backdrop-filter: blur(5px);
+}
+
+.hex-input:focus {
+  outline: none;
+  border-color: var(--color-border-input-focus);
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+  background: var(--color-bg-input-focus);
+}
+
+.color-preview {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 2px solid var(--color-border-color-preview);
+  box-shadow: var(--color-shadow-color-preview);
+  transition: all 0.2s ease;
+}
+
+.color-preview:hover {
+  transform: scale(1.1);
+  border-color: var(--color-border-color-preview-hover);
+}
+
+/* 색상 프리셋 스타일 */
+.color-presets {
+  margin-top: 8px;
+}
+
+.preset-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.preset-colors {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.preset-color {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--color-shadow-preset-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.preset-color:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-overlay-preset-color);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.preset-color:hover {
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: var(--color-shadow-preset-color-hover);
+}
+
+.preset-color:hover:before {
+  transform: translateX(100%);
+}
+
+.preset-color:active {
+  transform: scale(0.95);
+}

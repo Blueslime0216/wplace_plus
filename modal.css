@@ -1,0 +1,120 @@
+/* WPlace+ 모달 기본 스타일 */
+
+.wplace-plus-modal {
+  position: fixed;
+  /* 기본 위치는 숨김 상태로 설정 */
+  top: -9999px;
+  left: -9999px;
+  width: 400px;
+  height: 500px;
+  background: var(--color-bg-modal);
+  border: 1px solid var(--color-border-modal);
+  border-radius: 20px;
+  box-shadow: 
+    var(--color-shadow-modal),
+    var(--color-shadow-modal-inset),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  z-index: 10000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--color-text-primary);
+  user-select: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  /* 초기에는 보이지 않음 */
+  opacity: 0;
+  visibility: hidden;
+  backdrop-filter: blur(20px);
+}
+
+.wplace-plus-modal:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    var(--color-shadow-modal-hover),
+    var(--color-shadow-modal-inset-hover),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.wplace-plus-modal.minimized {
+  width: 60px !important;
+  height: 60px !important;
+  border-radius: 50% !important;
+  transform: none !important;
+  transform-origin: top right !important;
+  cursor: move;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  background: var(--color-bg-minimized);
+  border: 2px solid var(--color-border-minimized);
+  box-shadow: 
+    var(--color-shadow-minimized),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.wplace-plus-modal.minimized:hover {
+  transform: scale(1.05);
+  box-shadow: 
+    var(--color-shadow-minimized-hover),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.wplace-plus-modal.minimized .modal-content {
+  display: none;
+}
+
+.wplace-plus-modal.minimized .modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: transparent;
+  border-radius: 50%;
+  padding: 0;
+  border-bottom: none;
+}
+
+.wplace-plus-modal.minimized .header-left,
+.wplace-plus-modal.minimized .header-controls {
+  display: none;
+}
+
+.wplace-plus-modal.minimized .modal-header::after {
+  content: "W+";
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--color-text-white);
+  text-shadow: var(--color-text-shadow-button);
+}
+
+/* 드래그/리사이즈 중 transition 비활성화 */
+.wplace-plus-modal.dragging,
+.wplace-plus-modal.resizing {
+  transition: none !important;
+  transform: none !important;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .wplace-plus-modal {
+    width: 90vw;
+    height: 70vh;
+    max-width: 400px;
+    max-height: 500px;
+  }
+}
+
+/* 추가 애니메이션 효과 */
+@keyframes modalAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.wplace-plus-modal:not(.minimized) {
+  animation: modalAppear 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}

@@ -1,0 +1,106 @@
+/* WPlace+ 헤더 스타일 */
+
+/* 헤더 */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: var(--color-bg-header);
+  border-bottom: 1px solid var(--color-border-modal);
+  cursor: move;
+  user-select: none;
+  border-radius: 20px 20px 0 0;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.modal-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-overlay-header);
+  pointer-events: none;
+}
+
+.modal-header:hover {
+  background: linear-gradient(90deg, 
+    rgba(230, 240, 255, 0.8) 0%, 
+    rgba(240, 248, 255, 0.8) 100%);
+}
+
+.modal-header:active {
+  background: linear-gradient(90deg, 
+    rgba(230, 240, 255, 0.9) 0%, 
+    rgba(240, 248, 255, 0.9) 100%);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.header-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  text-shadow: var(--color-text-shadow-header);
+  letter-spacing: -0.025em;
+}
+
+.header-version {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  background: rgba(255, 255, 255, 0.3);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+  border: 1px solid var(--color-border-modal);
+  backdrop-filter: blur(10px);
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.header-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--color-border-modal);
+  backdrop-filter: blur(10px);
+  text-shadow: var(--color-text-shadow-header);
+}
+
+.header-btn:hover {
+  background: rgba(255, 255, 255, 0.5);
+  transform: scale(1.05);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-btn:active {
+  transform: scale(0.95);
+  background: rgba(255, 255, 255, 0.4);
+}

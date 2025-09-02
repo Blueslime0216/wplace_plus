@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "WPlace+",
+  "version": "0.0.1",
+  "description": "Enhanced WPlace experience with floating modal interface",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://wplace.live/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://wplace.live/*"
+      ],
+      "js": [
+        "core.js",
+        "helpers.js",
+        "modal.js",
+        "drag.js",
+        "resize.js",
+        "controls.js",
+        "keyboard.js",
+        "ui.js",
+        "app.js"
+      ],
+      "css": [
+        "variables.css",
+        "modal.css",
+        "header.css",
+        "content.css",
+        "sections.css",
+        "controls.css",
+        "colors.css",
+        "resize.css",
+        "responsive.css"
+      ],
+      "run_at": "document_start"
+    }
+  ]
+}

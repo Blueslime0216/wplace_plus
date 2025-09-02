@@ -1,0 +1,54 @@
+/* WPlace+ 리사이즈 핸들 스타일 */
+
+/* 리사이즈 핸들 */
+.resize-handle {
+  position: absolute;
+  background: transparent;
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+.resize-handle.right {
+  top: 0;
+  right: -5px;
+  width: 10px;
+  height: 100%;
+  cursor: ew-resize;
+}
+
+.resize-handle.left {
+  top: 0;
+  left: -5px;
+  width: 10px;
+  height: 100%;
+  cursor: ew-resize;
+}
+
+.resize-handle.bottom {
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  cursor: ns-resize;
+}
+
+.resize-handle.corner {
+  bottom: -5px;
+  right: -5px;
+  width: 10px;
+  height: 10px;
+  cursor: nw-resize;
+}
+
+.resize-handle.corner-left {
+  bottom: -5px;
+  left: -5px;
+  width: 10px;
+  height: 10px;
+  cursor: ne-resize;
+}
+
+.resize-handle:hover {
+  background: linear-gradient(45deg, rgba(74, 144, 226, 0.3) 0%, rgba(123, 179, 240, 0.3) 100%);
+  border-radius: 2px;
+}

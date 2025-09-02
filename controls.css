@@ -1,0 +1,160 @@
+/* WPlace+ 컨트롤 요소 스타일 */
+
+/* 컨트롤 그룹 스타일 */
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.control-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--color-bg-control-row);
+  border-radius: 12px;
+  border: 1px solid var(--color-border-control-row);
+  transition: all 0.2s ease;
+  backdrop-filter: blur(5px);
+}
+
+.control-row:hover {
+  background: rgba(255, 255, 255, 0.5);
+  border-color: var(--color-border-control-row-hover);
+}
+
+.control-label {
+  min-width: 120px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.control-description {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin-left: auto;
+}
+
+/* 토글 스위치 스타일 */
+.toggle-switch {
+  position: relative;
+  width: 48px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.toggle-input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-bg-toggle-inactive);
+  border-radius: 24px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid var(--color-border-toggle);
+  backdrop-filter: blur(5px);
+}
+
+.toggle-slider:before {
+  content: "";
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  top: 2px;
+  background: white;
+  border-radius: 50%;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--color-shadow-toggle);
+}
+
+.toggle-input:checked + .toggle-slider {
+  background: var(--color-bg-toggle-active);
+  border-color: var(--color-border-toggle-active);
+}
+
+.toggle-input:checked + .toggle-slider:before {
+  transform: translateX(24px);
+  box-shadow: var(--color-shadow-toggle-active);
+}
+
+.toggle-input:focus + .toggle-slider {
+  box-shadow: var(--color-shadow-toggle-focus);
+}
+
+/* 버튼 그룹 스타일 */
+.button-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.action-btn:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.action-btn:hover:before {
+  left: 100%;
+}
+
+.primary-btn {
+  background: var(--color-bg-button-primary);
+  color: var(--color-text-white);
+  box-shadow: var(--color-shadow-button-primary);
+  backdrop-filter: blur(10px);
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--color-shadow-button-primary-hover);
+}
+
+.secondary-btn {
+  background: var(--color-bg-button-secondary);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-button-secondary);
+  backdrop-filter: blur(5px);
+}
+
+.secondary-btn:hover {
+  background: rgba(255, 255, 255, 0.5);
+  border-color: var(--color-border-button-secondary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--color-shadow-button-secondary);
+}
+
+.btn-icon {
+  font-size: 16px;
+  filter: drop-shadow(var(--color-text-shadow-icon));
+}

@@ -1,0 +1,102 @@
+/* WPlace+ CSS 변수 정의 - 하늘색 톤 테마 */
+
+:root {
+  /* 기본 색상 팔레트 */
+  --color-sky-primary: #4A90E2;
+  --color-sky-secondary: #7BB3F0;
+  --color-sky-light: #B8D4F0;
+  --color-sky-very-light: #E6F2FF;
+  --color-sky-ultra-light: #F0F8FF;
+  
+  /* 텍스트 색상 */
+  --color-text-primary: #2D3748;
+  --color-text-secondary: #4A5568;
+  --color-text-muted: #718096;
+  --color-text-white: #FFFFFF;
+  
+  /* 배경 색상 */
+  --color-bg-modal: linear-gradient(135deg, 
+    rgba(230, 240, 255, 0.3) 0%, 
+    rgba(240, 248, 255, 0.3) 50%, 
+    rgba(250, 252, 255, 0.2) 100%);
+  --color-bg-header: linear-gradient(90deg, 
+    rgba(230, 240, 255, 0.6) 0%, 
+    rgba(240, 248, 255, 0.6) 100%);
+  --color-bg-content: linear-gradient(135deg, 
+    rgba(250, 252, 255, 0.2) 0%, 
+    rgba(230, 240, 255, 0.1) 100%);
+  --color-bg-section: rgba(255, 255, 255, 0.3);
+  --color-bg-section-content: rgba(255, 255, 255, 0.2);
+  --color-bg-control-row: rgba(255, 255, 255, 0.3);
+  --color-bg-color-row: rgba(255, 255, 255, 0.3);
+  --color-bg-button-primary: linear-gradient(135deg, 
+    rgba(74, 144, 226, 0.8) 0%, 
+    rgba(123, 179, 240, 0.8) 100%);
+  --color-bg-button-secondary: rgba(255, 255, 255, 0.3);
+  --color-bg-toggle-inactive: rgba(255, 255, 255, 0.3);
+  --color-bg-toggle-active: linear-gradient(135deg, 
+    rgba(74, 144, 226, 0.8) 0%, 
+    rgba(123, 179, 240, 0.8) 100%);
+  --color-bg-input: rgba(255, 255, 255, 0.3);
+  --color-bg-input-focus: rgba(255, 255, 255, 0.5);
+  --color-bg-minimized: linear-gradient(135deg, 
+    rgba(74, 144, 226, 0.8) 0%, 
+    rgba(123, 179, 240, 0.8) 100%);
+  
+  /* 테두리 색상 */
+  --color-border-modal: rgba(255, 255, 255, 0.2);
+  --color-border-section: rgba(255, 255, 255, 0.2);
+  --color-border-section-hover: rgba(255, 255, 255, 0.4);
+  --color-border-control-row: rgba(255, 255, 255, 0.2);
+  --color-border-control-row-hover: rgba(255, 255, 255, 0.4);
+  --color-border-color-row: rgba(255, 255, 255, 0.2);
+  --color-border-color-row-hover: rgba(255, 255, 255, 0.4);
+  --color-border-button-secondary: rgba(255, 255, 255, 0.2);
+  --color-border-button-secondary-hover: rgba(255, 255, 255, 0.4);
+  --color-border-toggle: rgba(255, 255, 255, 0.2);
+  --color-border-toggle-active: rgba(74, 144, 226, 0.3);
+  --color-border-input: rgba(255, 255, 255, 0.2);
+  --color-border-input-focus: rgba(74, 144, 226, 0.5);
+  --color-border-color-preview: rgba(255, 255, 255, 0.3);
+  --color-border-color-preview-hover: rgba(74, 144, 226, 0.5);
+  --color-border-minimized: rgba(255, 255, 255, 0.3);
+  
+  /* 그림자 색상 */
+  --color-shadow-modal: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --color-shadow-modal-hover: 0 12px 40px rgba(0, 0, 0, 0.15);
+  --color-shadow-modal-inset: 0 0 0 1px rgba(255, 255, 255, 0.1);
+  --color-shadow-modal-inset-hover: 0 0 0 1px rgba(255, 255, 255, 0.3);
+  --color-shadow-section: 0 4px 12px rgba(74, 144, 226, 0.1);
+  --color-shadow-button-primary: 0 4px 12px rgba(74, 144, 226, 0.3);
+  --color-shadow-button-primary-hover: 0 6px 16px rgba(74, 144, 226, 0.4);
+  --color-shadow-button-secondary: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --color-shadow-toggle: 0 2px 4px rgba(0, 0, 0, 0.2);
+  --color-shadow-toggle-active: 0 2px 6px rgba(74, 144, 226, 0.4);
+  --color-shadow-toggle-focus: 0 0 0 3px rgba(74, 144, 226, 0.1);
+  --color-shadow-color-picker: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --color-shadow-color-picker-hover: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --color-shadow-color-preview: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --color-shadow-preset-color: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --color-shadow-preset-color-hover: 0 4px 8px rgba(0, 0, 0, 0.2);
+  --color-shadow-minimized: 0 8px 16px rgba(74, 144, 226, 0.4);
+  --color-shadow-minimized-hover: 0 12px 24px rgba(74, 144, 226, 0.5);
+  
+  /* 텍스트 그림자 */
+  --color-text-shadow-header: 0 1px 2px rgba(255, 255, 255, 0.5);
+  --color-text-shadow-button: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --color-text-shadow-icon: 0 1px 2px rgba(0, 0, 0, 0.1);
+  
+  /* 그라데이션 오버레이 */
+  --color-overlay-header: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  --color-overlay-content: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+  --color-overlay-preset-color: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+  
+  /* 스크롤바 색상 */
+  --color-scrollbar-track: rgba(255, 255, 255, 0.1);
+  --color-scrollbar-thumb: linear-gradient(180deg, 
+    rgba(74, 144, 226, 0.8) 0%, 
+    rgba(123, 179, 240, 0.8) 100%);
+  --color-scrollbar-thumb-hover: linear-gradient(180deg, 
+    rgba(74, 144, 226, 1) 0%, 
+    rgba(123, 179, 240, 1) 100%);
+}
