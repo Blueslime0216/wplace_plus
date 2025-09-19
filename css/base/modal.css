@@ -148,6 +148,10 @@
   min-width: 120px !important;
   max-width: 300px !important;
   overflow: hidden !important;
+  max-height: 40px !important;
+  min-height: 40px !important;
+  flex-shrink: 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2) !important;
 }
 
 .wplace_plus_project_modal.minimized .wplace_plus_modal_content {
@@ -160,12 +164,14 @@
 
 /* 최소화 상태에서 헤더만 보이도록 */
 .wplace_plus_project_modal.minimized .wplace_plus_modal_header {
-  height: 100%;
+  height: 40px !important;
+  max-height: 40px !important;
   border-radius: var(--wplace-radius-xl);
   padding: var(--wplace-spacing-sm) var(--wplace-spacing-md);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  box-sizing: border-box;
 }
 
 /* 최소화 상태에서 컨트롤 버튼들 숨기기 */
@@ -179,4 +185,13 @@
   white-space: nowrap;
   flex: 1;
   margin-right: var(--wplace-spacing-sm);
+  line-height: 1.2;
+  max-height: 20px;
+  overflow: hidden;
+}
+
+/* 최소화 상태에서 아이콘 크기 조정 */
+.wplace_plus_project_modal.minimized .wplace_plus_modal_icon {
+  font-size: var(--wplace-text-sm);
+  line-height: 1;
 }

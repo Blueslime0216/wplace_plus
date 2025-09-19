@@ -14,7 +14,10 @@
     {
       "matches": ["https://wplace.live/*"],
       "js": [
+        "js/features/language-changer.js",
         "js/utils/helpers.js",
+        "js/utils/color-palette.js",
+        "js/features/image-upload.js",
         "js/core/project-manager.js",
         "js/features/projects.js",
         "js/core/core.js"
@@ -26,7 +29,8 @@
         "css/layout/content.css",
         "css/components/controls.css",
         "css/components/sections.css",
-        "css/components/resize.css"
+        "css/components/resize.css",
+        "css/components/image-upload.css"
       ],
       "run_at": "document_start"
     }

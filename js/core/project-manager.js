@@ -6,6 +6,7 @@ class ProjectManager {
     this.activeProjectId = null;
     this.projectModals = new Map();
     this.openModalIds = new Set();
+    this.imageUploadManager = imageUploadManager;
   }
 
   // 로컬 스토리지에서 프로젝트 목록 로드
@@ -91,12 +92,38 @@ class ProjectManager {
     return this.projects.find(p => p.id === id);
   }
 
+  // 프로젝트 삭제
+  deleteProject(id) {
+    const projectIndex = this.projects.findIndex(p => p.id === id);
+    if (projectIndex === -1) return false;
+
+    // 모달이 열려있다면 닫기
+    const modal = this.projectModals.get(id);
+    if (modal) {
+      modal.remove();
+      this.projectModals.delete(id);
+      this.openModalIds.delete(id);
+    }
+
+    // 프로젝트 데이터 삭제
+    localStorage.removeItem(`wplace_plus_project_${id}`);
+
+    // 프로젝트 목록에서 제거
+    this.projects.splice(projectIndex, 1);
+    this.saveProjects();
+
+    return true;
+  }
+
   // 프로젝트 열기 (모달 생성)
-  openProject(id) {
+  async openProject(id) {
     const project = this.getProject(id);
     if (!project) return null;
 
     this.activeProjectId = id;
+    
+    // ImageUploadManager에 프로젝트 ID 설정 (비동기)
+    await this.imageUploadManager.setProjectId(id);
     
     // 이미 모달이 있다면 제거
     const existingModal = this.projectModals.get(id);
@@ -141,6 +168,7 @@ class ProjectManager {
     
     // 최소화 상태 복원
     if (panels.overlay && panels.overlay.collapsed) {
+      console.log(`Wplace Plus: 모달 최소화 상태 복원 - 프로젝트: ${project.name}`);
       modal.classList.add('minimized');
       const minimizeBtn = modal.querySelector('.wplace_plus_minimize_btn');
       if (minimizeBtn) {
@@ -172,7 +200,10 @@ class ProjectManager {
     };
 
     // 최소화 상태 저장
-    project.ui.panels.overlay.collapsed = modal.classList.contains('minimized');
+    const isMinimized = modal.classList.contains('minimized');
+    project.ui.panels.overlay.collapsed = isMinimized;
+    
+    console.log(`Wplace Plus: 모달 상태 저장 - 프로젝트: ${project.name}, 최소화: ${isMinimized}`);
 
     this.saveProjects();
   }
@@ -235,34 +266,49 @@ class ProjectManager {
     
     return `
       <div class="wplace_plus_panel_section">
-        <h4>이미지 오버레이</h4>
-        <div class="wplace_plus_upload_area">
-          <input type="file" id="upload-image-btn" accept="image/*" style="display: none;">
-          <button class="wplace_plus_btn wplace_plus_btn_primary" id="upload-image-btn">
-            이미지 업로드
-          </button>
-          <p>PNG, JPG, GIF 파일을 지원합니다</p>
-        </div>
-        <div class="wplace_plus_overlay_controls">
-          <h5>오버레이 목록</h5>
-          <div class="wplace_plus_overlay_list">
-            ${overlays.length > 0 ? overlays.map(overlay => `
-              <div class="wplace_plus_overlay_item">
-                <div class="wplace_plus_overlay_preview">
-                  <img src="${overlay.url}" alt="${overlay.name}" style="width: 50px; height: 50px; object-fit: cover;">
-                </div>
-                <div class="wplace_plus_overlay_info">
-                  <div class="wplace_plus_overlay_name">${overlay.name}</div>
-                  <div class="wplace_plus_overlay_controls">
-                    <button class="wplace_plus_btn wplace_plus_btn_sm">표시</button>
-                    <button class="wplace_plus_btn wplace_plus_btn_sm">편집</button>
-                    <button class="wplace_plus_btn wplace_plus_btn_sm">삭제</button>
-                  </div>
-                </div>
-              </div>
-            `).join('') : '<div class="wplace_plus_overlay_empty">오버레이가 없습니다</div>'}
+        <!-- 이미지 업로드 섹션 -->
+        <div class="wplace_plus_image_upload_section">
+          <div class="flex items-center justify-center mb-4">
+            <button class="btn btn-primary btn-lg shadow-lg w-48" id="upload-image-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor" class="size-5">
+                <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T800-120H200Zm0-80h560v-560H200v560Zm80-80h400L520-400 360-240l-80-80v80Zm-80 80v-560 560Z"/>
+              </svg>
+              이미지 업로드
+            </button>
+          </div>
+          
+          <!-- 업로드 영역 (숨김) -->
+          <div class="wplace_plus_file_upload_area hidden" id="file-upload-area">
+            <div class="wplace_plus_file_upload_content">
+              <div class="wplace_plus_file_upload_icon">📁</div>
+              <div class="wplace_plus_file_upload_text">이미지를 드래그하거나 클릭하여 업로드</div>
+              <div class="wplace_plus_file_upload_hint">PNG, JPG, GIF 지원</div>
+            </div>
+          </div>
+          
+          <!-- 이미지 미리보기 -->
+          <div class="wplace_plus_image_preview" id="image-preview" style="display: none;">
+            <div class="wplace_plus_image_preview_item">
+              <label class="wplace_plus_image_preview_label">원본</label>
+              <canvas class="wplace_plus_image_preview_canvas" id="original-canvas"></canvas>
+            </div>
+            <div class="wplace_plus_image_preview_item">
+              <label class="wplace_plus_image_preview_label">처리됨</label>
+              <canvas class="wplace_plus_image_preview_canvas" id="processed-canvas"></canvas>
+            </div>
+            <button class="btn btn-xs btn-ghost absolute top-2 right-2" id="remove-image-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor" class="size-3">
+                <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+              </svg>
+            </button>
+          </div>
+          
+          <!-- 색상 팔레트 (컴팩트) - 이미지 업로드 시에만 표시 -->
+          <div id="color-palette-container" class="wplace_plus_color_palette_compact hidden">
+            ${this.imageUploadManager.generateColorPaletteHTML()}
           </div>
         </div>
+        
       </div>
     `;
   }
@@ -345,6 +391,9 @@ class ProjectManager {
     
     // 모달 버튼 설정
     this.setupModalButtons(modal);
+    
+    // 이미지 업로드 컨트롤 설정
+    this.setupImageUploadControls(modal);
     
     // 탭 설정
     this.setupTabs(modal);
@@ -513,6 +562,7 @@ class ProjectManager {
       }
       
       // 상태 저장
+      console.log(`Wplace Plus: 모달 최소화 상태 변경 - minimized: ${modal.classList.contains('minimized')}`);
       this.saveModalState(modal, projectId);
     };
     
@@ -727,6 +777,258 @@ class ProjectManager {
         
         this.saveProjects();
       });
+    }
+  }
+
+  // 이미지 업로드 컨트롤 설정
+  setupImageUploadControls(modal) {
+    const uploadBtn = modal.querySelector('#upload-image-btn');
+    const uploadArea = modal.querySelector('#file-upload-area');
+    const imagePreview = modal.querySelector('#image-preview');
+    const originalCanvas = modal.querySelector('#original-canvas');
+    const processedCanvas = modal.querySelector('#processed-canvas');
+    const colorPaletteContainer = modal.querySelector('#color-palette-container');
+    const removeImageBtn = modal.querySelector('#remove-image-btn');
+
+    console.log('이미지 업로드 컨트롤 설정 시작');
+    console.log('uploadBtn:', uploadBtn);
+    console.log('uploadArea:', uploadArea);
+    console.log('imagePreview:', imagePreview);
+    console.log('originalCanvas:', originalCanvas);
+    console.log('processedCanvas:', processedCanvas);
+    console.log('colorPaletteContainer:', colorPaletteContainer);
+
+    if (!uploadBtn || !uploadArea || !imagePreview || !originalCanvas || !processedCanvas || !colorPaletteContainer) {
+      console.log('필수 요소가 없어서 이미지 업로드 컨트롤 설정을 건너뜁니다');
+      return;
+    }
+
+    // 이미 설정된 경우 중복 설정 방지
+    if (uploadArea.dataset.eventsSetup === 'true') {
+      return;
+    }
+
+    // 파일 입력 이벤트
+    const handleFileChange = async (e) => {
+      console.log('파일 변경 이벤트 발생');
+      const file = e.target.files[0];
+      console.log('선택된 파일:', file);
+      if (!file) return;
+
+      try {
+        // 로딩 상태 표시
+        uploadArea.innerHTML = '<div class="wplace_plus_image_loading">이미지 처리 중...</div>';
+
+        // 이미지 업로드 및 처리
+        const result = await this.imageUploadManager.handleImageUpload(file);
+        
+        // 원본 이미지 표시
+        this.imageUploadManager.drawImageToCanvas(result.original, originalCanvas);
+        
+        // 처리된 이미지 표시
+        this.imageUploadManager.drawImageToCanvas(result.processed, processedCanvas);
+        
+        // 미리보기 표시
+        imagePreview.style.display = 'flex';
+        
+        // 업로드 버튼 숨기기
+        uploadBtn.style.display = 'none';
+        
+        // 색상 팔레트 표시
+        colorPaletteContainer.classList.remove('hidden');
+        
+      } catch (error) {
+        console.error('이미지 업로드 실패:', error);
+        uploadArea.innerHTML = `
+          <div class="wplace_plus_image_error">이미지 업로드에 실패했습니다: ${error.message}</div>
+          <div class="wplace_plus_file_upload_content">
+            <div class="wplace_plus_file_upload_icon">📁</div>
+            <div class="wplace_plus_file_upload_text">이미지를 드래그하거나 클릭하여 업로드</div>
+            <div class="wplace_plus_file_upload_hint">PNG, JPG, GIF 지원</div>
+          </div>
+        `;
+      }
+    };
+
+    // 드래그 앤 드롭 이벤트
+    const handleDragOver = (e) => {
+      e.preventDefault();
+      uploadArea.classList.add('dragover');
+    };
+
+    const handleDragLeave = (e) => {
+      e.preventDefault();
+      uploadArea.classList.remove('dragover');
+    };
+
+    const handleDrop = (e) => {
+      e.preventDefault();
+      uploadArea.classList.remove('dragover');
+      
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        // 파일 변경 이벤트 직접 호출
+        const file = files[0];
+        console.log('드롭된 파일:', file);
+        handleFileChange({ target: { files: files } });
+      }
+    };
+
+    // 업로드 버튼 클릭 이벤트
+    const handleUploadClick = (e) => {
+      console.log('업로드 버튼 클릭됨');
+      e.preventDefault();
+      e.stopPropagation();
+      
+      // 이미 파일 입력이 진행 중인 경우 중복 방지
+      if (uploadBtn.dataset.uploading === 'true') {
+        console.log('이미 업로드 진행 중입니다');
+        return;
+      }
+      
+      // 업로드 상태 표시
+      uploadBtn.dataset.uploading = 'true';
+      
+      // 새로운 파일 입력 요소 생성
+      const newFileInput = document.createElement('input');
+      newFileInput.type = 'file';
+      newFileInput.accept = 'image/*';
+      newFileInput.style.display = 'none';
+      
+      // 파일 선택 이벤트 리스너
+      newFileInput.addEventListener('change', (changeEvent) => {
+        // 업로드 상태 해제
+        uploadBtn.dataset.uploading = 'false';
+        handleFileChange(changeEvent);
+      });
+      
+      // 취소 시에도 상태 해제
+      newFileInput.addEventListener('cancel', () => {
+        uploadBtn.dataset.uploading = 'false';
+      });
+      
+      // DOM에 추가하고 클릭
+      document.body.appendChild(newFileInput);
+      newFileInput.click();
+      
+      // 클릭 후 제거
+      setTimeout(() => {
+        if (document.body.contains(newFileInput)) {
+          document.body.removeChild(newFileInput);
+        }
+        // 안전장치: 5초 후 상태 해제
+        setTimeout(() => {
+          uploadBtn.dataset.uploading = 'false';
+        }, 5000);
+      }, 100);
+    };
+
+    // 이미지 제거 버튼 클릭 이벤트
+    const handleRemoveClick = (e) => {
+      console.log('이미지 제거 버튼 클릭됨');
+      e.preventDefault();
+      e.stopPropagation();
+      
+      // 미리보기 숨기기
+      imagePreview.style.display = 'none';
+      
+      // 업로드 버튼 다시 보이기
+      uploadBtn.style.display = 'flex';
+      
+      // 색상 팔레트 숨기기
+      colorPaletteContainer.classList.add('hidden');
+      
+      // 이미지 데이터 초기화
+      this.imageUploadManager.originalImageData = null;
+      this.imageUploadManager.processedImageData = null;
+      
+      // 프로젝트 데이터 저장
+      this.imageUploadManager.saveProjectData();
+    };
+
+    // 기존 이벤트 리스너 제거 (중복 방지)
+    uploadBtn.removeEventListener('click', handleUploadClick);
+    uploadArea.removeEventListener('dragover', handleDragOver);
+    uploadArea.removeEventListener('dragleave', handleDragLeave);
+    uploadArea.removeEventListener('drop', handleDrop);
+    if (removeImageBtn) {
+      removeImageBtn.removeEventListener('click', handleRemoveClick);
+    }
+
+    // 이벤트 리스너 등록
+    console.log('이벤트 리스너 등록 중...');
+    uploadBtn.addEventListener('click', handleUploadClick);
+    uploadArea.addEventListener('dragover', handleDragOver);
+    uploadArea.addEventListener('dragleave', handleDragLeave);
+    uploadArea.addEventListener('drop', handleDrop);
+    if (removeImageBtn) {
+      removeImageBtn.addEventListener('click', handleRemoveClick);
+    }
+
+    // 이벤트 설정 완료 표시
+    uploadArea.dataset.eventsSetup = 'true';
+    console.log('이미지 업로드 컨트롤 설정 완료');
+
+    // 색상 팔레트 이벤트 설정
+    this.imageUploadManager.setupColorPaletteEvents(colorPaletteContainer);
+    
+    // 이미지 처리 완료 콜백 설정
+    this.imageUploadManager.setOnImageProcessed((processedImageData) => {
+      this.imageUploadManager.drawImageToCanvas(processedImageData, processedCanvas);
+    });
+
+    // 저장된 이미지 데이터 복원 (비동기)
+    setTimeout(() => {
+      this.restoreImageData(modal);
+    }, 100);
+  }
+
+  // 저장된 이미지 데이터 복원
+  async restoreImageData(modal) {
+    if (!modal || !modal.dataset) return;
+    
+    const projectId = modal.dataset.projectId;
+    if (!projectId) return;
+
+    const imagePreview = modal.querySelector('#image-preview');
+    const originalCanvas = modal.querySelector('#original-canvas');
+    const processedCanvas = modal.querySelector('#processed-canvas');
+    const colorPaletteContainer = modal.querySelector('#color-palette-container');
+    const uploadBtn = modal.querySelector('#upload-image-btn');
+
+    if (!imagePreview || !originalCanvas || !processedCanvas || !colorPaletteContainer || !uploadBtn) {
+      console.log('Wplace Plus: 필요한 DOM 요소를 찾을 수 없습니다');
+      return;
+    }
+
+    // ImageUploadManager에서 이미지 데이터 확인
+    if (this.imageUploadManager && this.imageUploadManager.originalImageData && this.imageUploadManager.processedImageData) {
+      try {
+        // 원본 이미지 표시
+        this.imageUploadManager.drawImageToCanvas(this.imageUploadManager.originalImageData, originalCanvas);
+        
+        // 처리된 이미지 표시
+        this.imageUploadManager.drawImageToCanvas(this.imageUploadManager.processedImageData, processedCanvas);
+        
+        // 미리보기 표시
+        imagePreview.style.display = 'flex';
+        
+        // 업로드 버튼 숨기기
+        uploadBtn.style.display = 'none';
+        
+        // 색상 팔레트 표시
+        colorPaletteContainer.classList.remove('hidden');
+        
+        console.log('Wplace Plus: 저장된 이미지 데이터 복원 완료');
+      } catch (error) {
+        console.error('Wplace Plus: 이미지 데이터 복원 실패:', error);
+      }
+    } else {
+      console.log('Wplace Plus: 복원할 이미지 데이터가 없습니다');
+      // 저장된 이미지 데이터가 없으면 색상 팔레트 숨기기
+      if (colorPaletteContainer) {
+        colorPaletteContainer.classList.add('hidden');
+      }
     }
   }
 }
