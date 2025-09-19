@@ -1,0 +1,248 @@
+/* 섹션 컴포넌트 스타일 */
+
+/* 섹션 기본 스타일 */
+.wplace_plus_section {
+  margin-bottom: var(--wplace-spacing-xl);
+  padding: var(--wplace-spacing-lg);
+  border: 1px solid var(--wplace-border-primary);
+  border-radius: var(--wplace-radius-lg);
+  background: var(--wplace-bg-primary);
+}
+
+.wplace_plus_section:last-child {
+  margin-bottom: 0;
+}
+
+.wplace_plus_section h5 {
+  margin: 0 0 var(--wplace-spacing-md) 0;
+  font-size: var(--wplace-text-lg);
+  font-weight: var(--wplace-font-semibold);
+  color: var(--wplace-text-primary);
+  border-bottom: 2px solid var(--wplace-primary);
+  padding-bottom: var(--wplace-spacing-xs);
+}
+
+.wplace_plus_section h6 {
+  margin: 0 0 var(--wplace-spacing-sm) 0;
+  font-size: var(--wplace-text-sm);
+  font-weight: var(--wplace-font-medium);
+  color: var(--wplace-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* 컨트롤 그룹 */
+.wplace_plus_control_group {
+  margin-bottom: var(--wplace-spacing-md);
+}
+
+.wplace_plus_control_group:last-child {
+  margin-bottom: 0;
+}
+
+.wplace_plus_control_group label {
+  display: block;
+  margin-bottom: var(--wplace-spacing-xs);
+  font-size: var(--wplace-text-sm);
+  font-weight: var(--wplace-font-medium);
+  color: var(--wplace-text-primary);
+}
+
+.wplace_plus_control_group input[type="range"] {
+  width: 100%;
+  margin: var(--wplace-spacing-xs) 0;
+}
+
+.wplace_plus_control_group input[type="number"] {
+  width: 100%;
+  padding: var(--wplace-spacing-sm);
+  border: 1px solid var(--wplace-border-primary);
+  border-radius: var(--wplace-radius-md);
+  font-size: var(--wplace-text-sm);
+  transition: border-color var(--wplace-transition-fast);
+}
+
+.wplace_plus_control_group input[type="number"]:focus {
+  outline: none;
+  border-color: var(--wplace-border-focus);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.wplace_plus_control_group select {
+  width: 100%;
+  padding: var(--wplace-spacing-sm);
+  border: 1px solid var(--wplace-border-primary);
+  border-radius: var(--wplace-radius-md);
+  font-size: var(--wplace-text-sm);
+  background: var(--wplace-bg-primary);
+  transition: border-color var(--wplace-transition-fast);
+}
+
+.wplace_plus_control_group select:focus {
+  outline: none;
+  border-color: var(--wplace-border-focus);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.wplace_plus_control_group span {
+  font-size: var(--wplace-text-xs);
+  color: var(--wplace-text-tertiary);
+  margin-left: var(--wplace-spacing-sm);
+}
+
+/* 패널 컨텐츠 */
+.wplace_plus_panel_content {
+  padding: 0;
+}
+
+/* 도구 선택기 */
+.wplace_plus_tool_selector {
+  margin-bottom: var(--wplace-spacing-lg);
+}
+
+.wplace_plus_tool_selector h5 {
+  margin: 0 0 var(--wplace-spacing-sm) 0;
+  font-size: var(--wplace-text-sm);
+  font-weight: var(--wplace-font-medium);
+  color: var(--wplace-text-primary);
+}
+
+.wplace_plus_tool_buttons {
+  display: flex;
+  gap: var(--wplace-spacing-sm);
+  flex-wrap: wrap;
+}
+
+.wplace_plus_tool_btn {
+  flex: 1;
+  min-width: 80px;
+  padding: var(--wplace-spacing-sm) var(--wplace-spacing-md);
+  border: 1px solid var(--wplace-border-primary);
+  border-radius: var(--wplace-radius-md);
+  background: var(--wplace-bg-primary);
+  color: var(--wplace-text-secondary);
+  cursor: pointer;
+  font-size: var(--wplace-text-xs);
+  font-weight: var(--wplace-font-medium);
+  transition: all var(--wplace-transition-fast);
+  text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.wplace_plus_tool_btn:hover {
+  background: var(--wplace-bg-secondary);
+  border-color: var(--wplace-border-secondary);
+  color: var(--wplace-text-primary);
+}
+
+.wplace_plus_tool_btn.active {
+  background: var(--wplace-primary);
+  border-color: var(--wplace-primary);
+  color: var(--wplace-text-inverse);
+}
+
+/* 점 표시 */
+.wplace_plus_points_display {
+  margin-top: var(--wplace-spacing-lg);
+}
+
+.wplace_plus_points_display h5 {
+  margin: 0 0 var(--wplace-spacing-sm) 0;
+  font-size: var(--wplace-text-sm);
+  font-weight: var(--wplace-font-medium);
+  color: var(--wplace-text-primary);
+}
+
+.wplace_plus_points_list {
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid var(--wplace-border-primary);
+  border-radius: var(--wplace-radius-md);
+  background: var(--wplace-bg-primary);
+  padding: var(--wplace-spacing-sm);
+  margin-bottom: var(--wplace-spacing-sm);
+}
+
+.wplace_plus_points_empty {
+  text-align: center;
+  padding: var(--wplace-spacing-lg);
+  color: var(--wplace-text-tertiary);
+  font-size: var(--wplace-text-sm);
+  font-style: italic;
+}
+
+.wplace_plus_points_actions {
+  display: flex;
+  gap: var(--wplace-spacing-sm);
+  justify-content: flex-end;
+}
+
+/* 색상 팔레트 */
+.wplace_plus_palette_group {
+  margin-bottom: var(--wplace-spacing-lg);
+  border: 1px solid var(--wplace-border-primary);
+  border-radius: var(--wplace-radius-lg);
+  padding: var(--wplace-spacing-md);
+  background: var(--wplace-bg-secondary);
+}
+
+.wplace_plus_palette_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--wplace-spacing-sm);
+}
+
+.wplace_plus_palette_header h6 {
+  margin: 0;
+  font-size: var(--wplace-text-sm);
+  font-weight: var(--wplace-font-semibold);
+  color: var(--wplace-text-primary);
+}
+
+.wplace_plus_palette_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+  gap: var(--wplace-spacing-xs);
+  max-height: 200px;
+  overflow-y: auto;
+  padding: var(--wplace-spacing-xs);
+  border: 1px solid var(--wplace-border-primary);
+  border-radius: var(--wplace-radius-md);
+  background: var(--wplace-bg-primary);
+}
+
+.wplace_plus_color_btn {
+  width: 30px;
+  height: 30px;
+  border: 2px solid var(--wplace-border-primary);
+  border-radius: var(--wplace-radius-sm);
+  cursor: pointer;
+  transition: all var(--wplace-transition-fast);
+  position: relative;
+}
+
+.wplace_plus_color_btn:hover {
+  border-color: var(--wplace-gray-500);
+  transform: scale(1.1);
+}
+
+.wplace_plus_color_btn.selected {
+  border-color: var(--wplace-primary);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+
+.wplace_plus_color_btn.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--wplace-white);
+  font-weight: var(--wplace-font-bold);
+  font-size: var(--wplace-text-xs);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}

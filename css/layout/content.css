@@ -1,0 +1,168 @@
+/* 모달 컨텐츠 레이아웃 */
+
+/* 프로젝트 탭 */
+.wplace_plus_project_tabs {
+  display: flex;
+  background: var(--wplace-bg-tertiary);
+  border-bottom: 1px solid var(--wplace-border-primary);
+  overflow-x: auto;
+}
+
+.wplace_plus_tab_btn {
+  flex: 1;
+  padding: var(--wplace-spacing-sm) var(--wplace-spacing-md);
+  border: none;
+  background: transparent;
+  color: var(--wplace-text-secondary);
+  cursor: pointer;
+  font-size: var(--wplace-text-sm);
+  font-weight: var(--wplace-font-medium);
+  transition: all var(--wplace-transition-fast);
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--wplace-spacing-xs);
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.wplace_plus_tab_btn:hover {
+  background: var(--wplace-bg-primary);
+  color: var(--wplace-text-primary);
+}
+
+.wplace_plus_tab_btn.active {
+  color: var(--wplace-primary);
+  border-bottom-color: var(--wplace-primary);
+  background: var(--wplace-bg-primary);
+}
+
+/* 탭 컨텐츠 */
+.wplace_plus_tab_content {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.wplace_plus_tab_panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: var(--wplace-spacing-lg);
+  overflow-y: auto;
+  display: none;
+}
+
+.wplace_plus_tab_panel.active {
+  display: block;
+}
+
+/* 패널 섹션 */
+.wplace_plus_panel_section {
+  margin-bottom: var(--wplace-spacing-xl);
+}
+
+.wplace_plus_panel_section:last-child {
+  margin-bottom: 0;
+}
+
+.wplace_plus_panel_section h4 {
+  margin: 0 0 var(--wplace-spacing-md) 0;
+  font-size: var(--wplace-text-base);
+  font-weight: var(--wplace-font-semibold);
+  color: var(--wplace-text-primary);
+  border-bottom: 2px solid var(--wplace-primary);
+  padding-bottom: var(--wplace-spacing-xs);
+}
+
+.wplace_plus_panel_section h5 {
+  margin: 0 0 var(--wplace-spacing-sm) 0;
+  font-size: var(--wplace-text-sm);
+  font-weight: var(--wplace-font-medium);
+  color: var(--wplace-text-primary);
+}
+
+.wplace_plus_panel_section h6 {
+  margin: 0 0 var(--wplace-spacing-xs) 0;
+  font-size: var(--wplace-text-xs);
+  font-weight: var(--wplace-font-medium);
+  color: var(--wplace-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* 오버레이 컨트롤 */
+.wplace_plus_overlay_controls {
+  margin-top: var(--wplace-spacing-lg);
+}
+
+.wplace_plus_overlay_list {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid var(--wplace-border-primary);
+  border-radius: var(--wplace-radius-md);
+  background: var(--wplace-bg-primary);
+}
+
+.wplace_plus_overlay_item {
+  display: flex;
+  align-items: center;
+  gap: var(--wplace-spacing-md);
+  padding: var(--wplace-spacing-md);
+  border-bottom: 1px solid var(--wplace-border-primary);
+  transition: background-color var(--wplace-transition-fast);
+}
+
+.wplace_plus_overlay_item:last-child {
+  border-bottom: none;
+}
+
+.wplace_plus_overlay_item:hover {
+  background: var(--wplace-bg-secondary);
+}
+
+.wplace_plus_overlay_preview {
+  flex-shrink: 0;
+}
+
+.wplace_plus_overlay_preview img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: var(--wplace-radius-sm);
+  border: 1px solid var(--wplace-border-primary);
+}
+
+.wplace_plus_overlay_info {
+  flex: 1;
+  min-width: 0;
+}
+
+.wplace_plus_overlay_name {
+  font-size: var(--wplace-text-sm);
+  font-weight: var(--wplace-font-medium);
+  color: var(--wplace-text-primary);
+  margin-bottom: var(--wplace-spacing-xs);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wplace_plus_overlay_controls {
+  display: flex;
+  gap: var(--wplace-spacing-xs);
+}
+
+.wplace_plus_overlay_empty {
+  text-align: center;
+  padding: var(--wplace-spacing-xl);
+  color: var(--wplace-text-tertiary);
+  font-size: var(--wplace-text-sm);
+  font-style: italic;
+}

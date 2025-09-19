@@ -1,0 +1,311 @@
+/* 컨트롤 컴포넌트 스타일 */
+
+/* 버튼 기본 스타일 */
+.wplace_plus_btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--wplace-spacing-xs);
+  padding: var(--wplace-spacing-sm) var(--wplace-spacing-md);
+  border: 1px solid var(--wplace-border-primary);
+  border-radius: var(--wplace-radius-md);
+  background: var(--wplace-bg-primary);
+  color: var(--wplace-text-primary);
+  font-size: var(--wplace-text-sm);
+  font-weight: var(--wplace-font-medium);
+  cursor: pointer;
+  transition: all var(--wplace-transition-fast);
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  white-space: nowrap;
+}
+
+.wplace_plus_btn:hover {
+  background: var(--wplace-bg-secondary);
+  border-color: var(--wplace-border-secondary);
+  transform: translateY(-1px);
+  box-shadow: var(--wplace-shadow-sm);
+}
+
+.wplace_plus_btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.wplace_plus_btn:focus {
+  outline: none;
+  border-color: var(--wplace-border-focus);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* 버튼 크기 변형 */
+.wplace_plus_btn_sm {
+  padding: var(--wplace-spacing-xs) var(--wplace-spacing-sm);
+  font-size: var(--wplace-text-xs);
+  border-radius: var(--wplace-radius-sm);
+}
+
+.wplace_plus_btn_lg {
+  padding: var(--wplace-spacing-md) var(--wplace-spacing-lg);
+  font-size: var(--wplace-text-base);
+  border-radius: var(--wplace-radius-lg);
+}
+
+/* 버튼 색상 변형 */
+.wplace_plus_btn_primary {
+  background: var(--wplace-primary);
+  border-color: var(--wplace-primary);
+  color: var(--wplace-text-inverse);
+}
+
+.wplace_plus_btn_primary:hover {
+  background: var(--wplace-primary-hover);
+  border-color: var(--wplace-primary-hover);
+}
+
+.wplace_plus_btn_secondary {
+  background: var(--wplace-secondary);
+  border-color: var(--wplace-secondary);
+  color: var(--wplace-text-inverse);
+}
+
+.wplace_plus_btn_secondary:hover {
+  background: var(--wplace-secondary-hover);
+  border-color: var(--wplace-secondary-hover);
+}
+
+.wplace_plus_btn_success {
+  background: var(--wplace-success);
+  border-color: var(--wplace-success);
+  color: var(--wplace-text-inverse);
+}
+
+.wplace_plus_btn_success:hover {
+  background: var(--wplace-success-hover);
+  border-color: var(--wplace-success-hover);
+}
+
+.wplace_plus_btn_danger {
+  background: var(--wplace-danger);
+  border-color: var(--wplace-danger);
+  color: var(--wplace-text-inverse);
+}
+
+.wplace_plus_btn_danger:hover {
+  background: var(--wplace-danger-hover);
+  border-color: var(--wplace-danger-hover);
+}
+
+/* 토글 스위치 */
+.wplace_plus_toggle_group {
+  margin-bottom: var(--wplace-spacing-md);
+}
+
+.wplace_plus_toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--wplace-spacing-sm);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.wplace_plus_toggle input[type="checkbox"] {
+  display: none;
+}
+
+.wplace_plus_toggle_slider {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  background: var(--wplace-gray-300);
+  border-radius: var(--wplace-radius-full);
+  transition: background-color var(--wplace-transition-fast);
+}
+
+.wplace_plus_toggle_slider::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: var(--wplace-white);
+  border-radius: 50%;
+  transition: transform var(--wplace-transition-fast);
+  box-shadow: var(--wplace-shadow-sm);
+}
+
+.wplace_plus_toggle input:checked + .wplace_plus_toggle_slider {
+  background: var(--wplace-primary);
+}
+
+.wplace_plus_toggle input:checked + .wplace_plus_toggle_slider::before {
+  transform: translateX(20px);
+}
+
+.wplace_plus_toggle_label {
+  font-size: var(--wplace-text-sm);
+  font-weight: var(--wplace-font-medium);
+  color: var(--wplace-text-primary);
+}
+
+/* 색상 선택기 */
+.wplace_plus_color_picker_group {
+  margin-bottom: var(--wplace-spacing-md);
+}
+
+.wplace_plus_color_picker_group label {
+  display: block;
+  margin-bottom: var(--wplace-spacing-xs);
+  font-size: var(--wplace-text-sm);
+  font-weight: var(--wplace-font-medium);
+  color: var(--wplace-text-primary);
+}
+
+.wplace_plus_color_picker {
+  display: flex;
+  gap: var(--wplace-spacing-sm);
+  align-items: center;
+}
+
+.wplace_plus_color_input {
+  border: 1px solid var(--wplace-border-primary);
+  border-radius: var(--wplace-radius-md);
+  padding: var(--wplace-spacing-xs);
+  font-size: var(--wplace-text-sm);
+  transition: border-color var(--wplace-transition-fast);
+}
+
+.wplace_plus_color_input[type="color"] {
+  width: 40px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: var(--wplace-radius-sm);
+  cursor: pointer;
+}
+
+.wplace_plus_color_input[type="text"] {
+  flex: 1;
+  min-width: 0;
+}
+
+.wplace_plus_color_input:focus {
+  outline: none;
+  border-color: var(--wplace-border-focus);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* 슬라이더 */
+.wplace_plus_slider_group {
+  margin-bottom: var(--wplace-spacing-md);
+}
+
+.wplace_plus_slider_group label {
+  display: block;
+  margin-bottom: var(--wplace-spacing-xs);
+  font-size: var(--wplace-text-sm);
+  font-weight: var(--wplace-font-medium);
+  color: var(--wplace-text-primary);
+}
+
+.wplace_plus_slider {
+  width: 100%;
+  height: 6px;
+  border-radius: var(--wplace-radius-full);
+  background: var(--wplace-gray-200);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.wplace_plus_slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--wplace-primary);
+  cursor: pointer;
+  box-shadow: var(--wplace-shadow-sm);
+  transition: all var(--wplace-transition-fast);
+}
+
+.wplace_plus_slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: var(--wplace-shadow-md);
+}
+
+.wplace_plus_slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--wplace-primary);
+  cursor: pointer;
+  border: none;
+  box-shadow: var(--wplace-shadow-sm);
+  transition: all var(--wplace-transition-fast);
+}
+
+.wplace_plus_slider::-moz-range-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: var(--wplace-shadow-md);
+}
+
+.wplace_plus_slider_value {
+  font-weight: var(--wplace-font-semibold);
+  color: var(--wplace-primary);
+}
+
+/* 업로드 영역 */
+.wplace_plus_upload_area {
+  text-align: center;
+  padding: var(--wplace-spacing-xl);
+  border: 2px dashed var(--wplace-border-primary);
+  border-radius: var(--wplace-radius-lg);
+  background: var(--wplace-bg-secondary);
+  transition: border-color var(--wplace-transition-normal);
+  cursor: pointer;
+}
+
+.wplace_plus_upload_area:hover {
+  border-color: var(--wplace-primary);
+  background: var(--wplace-primary-light);
+}
+
+.wplace_plus_upload_area p {
+  margin: var(--wplace-spacing-sm) 0 0 0;
+  font-size: var(--wplace-text-xs);
+  color: var(--wplace-text-tertiary);
+}
+
+/* 이미지 미리보기 */
+.wplace_plus_image_preview {
+  margin-top: var(--wplace-spacing-md);
+  text-align: center;
+}
+
+.wplace_plus_image_preview img {
+  max-width: 100%;
+  max-height: 200px;
+  border: 1px solid var(--wplace-border-primary);
+  border-radius: var(--wplace-radius-md);
+  box-shadow: var(--wplace-shadow-sm);
+}
+
+.wplace_plus_image_info {
+  margin-top: var(--wplace-spacing-sm);
+  font-size: var(--wplace-text-xs);
+  color: var(--wplace-text-tertiary);
+}
+
+.wplace_plus_image_info p {
+  margin: 2px 0;
+}

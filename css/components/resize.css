@@ -1,0 +1,145 @@
+/* 리사이즈 관련 스타일 */
+
+/* 리사이즈 핸들 */
+.wplace_plus_modal_resize_handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(-45deg, 
+    transparent 0%, 
+    transparent 30%, 
+    var(--wplace-gray-300) 30%, 
+    var(--wplace-gray-300) 40%, 
+    transparent 40%, 
+    transparent 60%, 
+    var(--wplace-gray-300) 60%, 
+    var(--wplace-gray-300) 70%, 
+    transparent 70%
+  );
+  cursor: nw-resize;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  transition: background var(--wplace-transition-fast);
+}
+
+.wplace_plus_modal_resize_handle:hover {
+  background: linear-gradient(-45deg, 
+    transparent 0%, 
+    transparent 30%, 
+    var(--wplace-gray-400) 30%, 
+    var(--wplace-gray-400) 40%, 
+    transparent 40%, 
+    transparent 60%, 
+    var(--wplace-gray-400) 60%, 
+    var(--wplace-gray-400) 70%, 
+    transparent 70%
+  );
+}
+
+.wplace_plus_modal_resize_handle:active {
+  background: linear-gradient(-45deg, 
+    transparent 0%, 
+    transparent 30%, 
+    var(--wplace-primary) 30%, 
+    var(--wplace-primary) 40%, 
+    transparent 40%, 
+    transparent 60%, 
+    var(--wplace-primary) 60%, 
+    var(--wplace-primary) 70%, 
+    transparent 70%
+  );
+}
+
+/* 리사이즈 중 상태 */
+.wplace_plus_project_modal.resizing {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.wplace_plus_project_modal.resizing * {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* 드래그 중 상태 */
+.wplace_plus_project_modal.dragging {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  cursor: move;
+}
+
+.wplace_plus_project_modal.dragging * {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* 최소 크기 제한 */
+.wplace_plus_project_modal {
+  min-width: 300px;
+  min-height: 200px;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+/* 리사이즈 가능한 영역 표시 */
+.wplace_plus_project_modal:not(.minimized) .wplace_plus_modal_resize_handle {
+  opacity: 0;
+  transition: opacity var(--wplace-transition-fast);
+}
+
+.wplace_plus_project_modal:not(.minimized):hover .wplace_plus_modal_resize_handle {
+  opacity: 1;
+}
+
+/* 리사이즈 핸들 활성화 시 */
+.wplace_plus_modal_resize_handle.active {
+  opacity: 1 !important;
+  background: linear-gradient(-45deg, 
+    transparent 0%, 
+    transparent 30%, 
+    var(--wplace-primary) 30%, 
+    var(--wplace-primary) 40%, 
+    transparent 40%, 
+    transparent 60%, 
+    var(--wplace-primary) 60%, 
+    var(--wplace-primary) 70%, 
+    transparent 70%
+  );
+}
+
+/* 모바일에서 리사이즈 비활성화 */
+@media (max-width: 768px) {
+  .wplace_plus_modal_resize_handle {
+    display: none;
+  }
+  
+  .wplace_plus_project_modal {
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+    top: 0 !important;
+    left: 0 !important;
+    border-radius: 0;
+  }
+}
+
+/* 터치 디바이스에서 리사이즈 핸들 크기 증가 */
+@media (hover: none) and (pointer: coarse) {
+  .wplace_plus_modal_resize_handle {
+    width: 24px;
+    height: 24px;
+  }
+}

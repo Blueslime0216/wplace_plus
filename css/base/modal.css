@@ -1,0 +1,182 @@
+/* 모달 기본 스타일 */
+
+/* 모달 오버레이 */
+.wplace_plus_modal_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--wplace-bg-overlay);
+  z-index: var(--wplace-z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--wplace-transition-normal), visibility var(--wplace-transition-normal);
+}
+
+.wplace_plus_modal_overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 프로젝트 모달 */
+.wplace_plus_project_modal {
+  position: fixed;
+  top: 100px;
+  left: 100px;
+  width: 400px;
+  height: 500px;
+  background: var(--wplace-bg-modal);
+  border: 1px solid var(--wplace-border-primary);
+  border-radius: var(--wplace-radius-xl);
+  box-shadow: var(--wplace-shadow-xl);
+  z-index: var(--wplace-z-modal);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: var(--wplace-text-sm);
+  line-height: var(--wplace-leading-normal);
+  color: var(--wplace-text-primary);
+}
+
+/* 모달 헤더 */
+.wplace_plus_modal_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--wplace-spacing-md) var(--wplace-spacing-lg);
+  background: var(--wplace-bg-secondary);
+  border-bottom: 1px solid var(--wplace-border-primary);
+  cursor: move;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.wplace_plus_modal_title {
+  display: flex;
+  align-items: center;
+  gap: var(--wplace-spacing-sm);
+  font-weight: var(--wplace-font-semibold);
+  color: var(--wplace-text-primary);
+}
+
+.wplace_plus_modal_icon {
+  font-size: var(--wplace-text-lg);
+}
+
+.wplace_plus_modal_name {
+  font-size: var(--wplace-text-base);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.wplace_plus_modal_controls {
+  display: flex;
+  align-items: center;
+  gap: var(--wplace-spacing-xs);
+}
+
+.wplace_plus_modal_btn {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  color: var(--wplace-text-secondary);
+  cursor: pointer;
+  border-radius: var(--wplace-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--wplace-text-base);
+  font-weight: var(--wplace-font-medium);
+  transition: all var(--wplace-transition-fast);
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.wplace_plus_modal_btn:hover {
+  background: var(--wplace-gray-200);
+  color: var(--wplace-text-primary);
+}
+
+.wplace_plus_close_btn:hover {
+  background: var(--wplace-danger);
+  color: var(--wplace-text-inverse);
+}
+
+/* 모달 컨텐츠 */
+.wplace_plus_modal_content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* 리사이즈 핸들 */
+.wplace_plus_modal_resize_handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(-45deg, transparent 0%, transparent 30%, var(--wplace-gray-300) 30%, var(--wplace-gray-300) 40%, transparent 40%, transparent 60%, var(--wplace-gray-300) 60%, var(--wplace-gray-300) 70%, transparent 70%);
+  cursor: nw-resize;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.wplace_plus_modal_resize_handle:hover {
+  background: linear-gradient(-45deg, transparent 0%, transparent 30%, var(--wplace-gray-400) 30%, var(--wplace-gray-400) 40%, transparent 40%, transparent 60%, var(--wplace-gray-400) 60%, var(--wplace-gray-400) 70%, transparent 70%);
+}
+
+/* 최소화 상태 */
+.wplace_plus_project_modal.minimized {
+  height: 40px !important;
+  width: auto !important;
+  min-width: 120px !important;
+  max-width: 300px !important;
+  overflow: hidden !important;
+}
+
+.wplace_plus_project_modal.minimized .wplace_plus_modal_content {
+  display: none !important;
+}
+
+.wplace_plus_project_modal.minimized .wplace_plus_modal_resize_handle {
+  display: none !important;
+}
+
+/* 최소화 상태에서 헤더만 보이도록 */
+.wplace_plus_project_modal.minimized .wplace_plus_modal_header {
+  height: 100%;
+  border-radius: var(--wplace-radius-xl);
+  padding: var(--wplace-spacing-sm) var(--wplace-spacing-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 최소화 상태에서 컨트롤 버튼들 숨기기 */
+.wplace_plus_project_modal.minimized .wplace_plus_modal_controls {
+  display: none !important;
+}
+
+/* 최소화 상태에서 제목 텍스트 조정 */
+.wplace_plus_project_modal.minimized .wplace_plus_modal_name {
+  font-size: var(--wplace-text-sm);
+  white-space: nowrap;
+  flex: 1;
+  margin-right: var(--wplace-spacing-sm);
+}

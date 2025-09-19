@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "Wplace Plus",
+  "version": "1.0.0",
+  "description": "wplace.live를 위한 고급 오버레이 및 픽셀 관리 도구",
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://wplace.live/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://wplace.live/*"],
+      "js": [
+        "js/utils/helpers.js",
+        "js/core/project-manager.js",
+        "js/features/projects.js",
+        "js/core/core.js"
+      ],
+      "css": [
+        "css/base/variables.css",
+        "css/base/modal.css",
+        "css/layout/header.css",
+        "css/layout/content.css",
+        "css/components/controls.css",
+        "css/components/sections.css",
+        "css/components/resize.css"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Wplace Plus"
+  }
+}

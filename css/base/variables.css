@@ -1,0 +1,121 @@
+/* Wplace Plus CSS 변수 정의 */
+
+:root {
+  /* 색상 팔레트 */
+  --wplace-primary: #3b82f6;
+  --wplace-primary-hover: #2563eb;
+  --wplace-primary-light: #dbeafe;
+  --wplace-secondary: #6b7280;
+  --wplace-secondary-hover: #4b5563;
+  --wplace-success: #10b981;
+  --wplace-success-hover: #059669;
+  --wplace-warning: #f59e0b;
+  --wplace-warning-hover: #d97706;
+  --wplace-danger: #ef4444;
+  --wplace-danger-hover: #dc2626;
+  --wplace-info: #06b6d4;
+  --wplace-info-hover: #0891b2;
+
+  /* 중성 색상 */
+  --wplace-white: #ffffff;
+  --wplace-gray-50: #f9fafb;
+  --wplace-gray-100: #f3f4f6;
+  --wplace-gray-200: #e5e7eb;
+  --wplace-gray-300: #d1d5db;
+  --wplace-gray-400: #9ca3af;
+  --wplace-gray-500: #6b7280;
+  --wplace-gray-600: #4b5563;
+  --wplace-gray-700: #374151;
+  --wplace-gray-800: #1f2937;
+  --wplace-gray-900: #111827;
+  --wplace-black: #000000;
+
+  /* 배경 색상 */
+  --wplace-bg-primary: var(--wplace-white);
+  --wplace-bg-secondary: var(--wplace-gray-50);
+  --wplace-bg-tertiary: var(--wplace-gray-100);
+  --wplace-bg-overlay: rgba(0, 0, 0, 0.5);
+  --wplace-bg-modal: var(--wplace-white);
+  --wplace-bg-dropdown: var(--wplace-white);
+
+  /* 텍스트 색상 */
+  --wplace-text-primary: var(--wplace-gray-900);
+  --wplace-text-secondary: var(--wplace-gray-600);
+  --wplace-text-tertiary: var(--wplace-gray-500);
+  --wplace-text-inverse: var(--wplace-white);
+  --wplace-text-muted: var(--wplace-gray-400);
+
+  /* 테두리 색상 */
+  --wplace-border-primary: var(--wplace-gray-200);
+  --wplace-border-secondary: var(--wplace-gray-300);
+  --wplace-border-focus: var(--wplace-primary);
+  --wplace-border-error: var(--wplace-danger);
+
+  /* 그림자 */
+  --wplace-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --wplace-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --wplace-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --wplace-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  /* 간격 */
+  --wplace-spacing-xs: 0.25rem;   /* 4px */
+  --wplace-spacing-sm: 0.5rem;    /* 8px */
+  --wplace-spacing-md: 0.75rem;   /* 12px */
+  --wplace-spacing-lg: 1rem;      /* 16px */
+  --wplace-spacing-xl: 1.5rem;    /* 24px */
+  --wplace-spacing-2xl: 2rem;     /* 32px */
+  --wplace-spacing-3xl: 3rem;     /* 48px */
+
+  /* 폰트 크기 */
+  --wplace-text-xs: 0.75rem;      /* 12px */
+  --wplace-text-sm: 0.875rem;     /* 14px */
+  --wplace-text-base: 1rem;       /* 16px */
+  --wplace-text-lg: 1.125rem;     /* 18px */
+  --wplace-text-xl: 1.25rem;      /* 20px */
+  --wplace-text-2xl: 1.5rem;      /* 24px */
+  --wplace-text-3xl: 1.875rem;    /* 30px */
+
+  /* 폰트 두께 */
+  --wplace-font-normal: 400;
+  --wplace-font-medium: 500;
+  --wplace-font-semibold: 600;
+  --wplace-font-bold: 700;
+
+  /* 라인 높이 */
+  --wplace-leading-tight: 1.25;
+  --wplace-leading-normal: 1.5;
+  --wplace-leading-relaxed: 1.75;
+
+  /* 테두리 반경 */
+  --wplace-radius-sm: 0.25rem;    /* 4px */
+  --wplace-radius-md: 0.375rem;   /* 6px */
+  --wplace-radius-lg: 0.5rem;     /* 8px */
+  --wplace-radius-xl: 0.75rem;    /* 12px */
+  --wplace-radius-2xl: 1rem;      /* 16px */
+  --wplace-radius-full: 9999px;
+
+  /* 전환 효과 */
+  --wplace-transition-fast: 150ms ease-in-out;
+  --wplace-transition-normal: 250ms ease-in-out;
+  --wplace-transition-slow: 350ms ease-in-out;
+
+  /* z-index */
+  --wplace-z-dropdown: 1000;
+  --wplace-z-modal: 1050;
+  --wplace-z-tooltip: 1100;
+  --wplace-z-notification: 1200;
+
+  /* 최대 너비 */
+  --wplace-max-width-sm: 24rem;   /* 384px */
+  --wplace-max-width-md: 28rem;   /* 448px */
+  --wplace-max-width-lg: 32rem;   /* 512px */
+  --wplace-max-width-xl: 36rem;   /* 576px */
+  --wplace-max-width-2xl: 42rem;  /* 672px */
+  --wplace-max-width-3xl: 48rem;  /* 768px */
+
+  /* 최소 높이 */
+  --wplace-min-height-sm: 2rem;   /* 32px */
+  --wplace-min-height-md: 2.5rem; /* 40px */
+  --wplace-min-height-lg: 3rem;   /* 48px */
+  --wplace-min-height-xl: 3.5rem; /* 56px */
+}
