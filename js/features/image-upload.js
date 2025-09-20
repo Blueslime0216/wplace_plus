@@ -119,10 +119,58 @@ class ImageUploadManager {
     try {
       const imageData = await this.fileToImageData(file);
       this.originalImageData = imageData;
+      
+      // 기준 좌표 가져오기 (positionCapture 초기화 대기)
+      let anchorCoords = null;
+      if (window.positionCapture) {
+        anchorCoords = window.positionCapture.getCurrentCoordinates();
+      } else {
+        // positionCapture가 아직 초기화되지 않았다면 잠시 대기
+        await new Promise(resolve => {
+          const checkPositionCapture = () => {
+            if (window.positionCapture) {
+              anchorCoords = window.positionCapture.getCurrentCoordinates();
+              resolve();
+            } else {
+              setTimeout(checkPositionCapture, 100);
+            }
+          };
+          checkPositionCapture();
+        });
+      }
+      
+      if (!anchorCoords) {
+        alert('오버레이를 위한 기준점 좌표가 설정되지 않았습니다. 먼저 캔버스에서 위치를 캡처해주세요.');
+        return null;
+      }
+      
+      // 이미지 타일화 처리
+      const chunkedTiles = await this.preProcessImageForTiling(this.originalImageData, anchorCoords);
+      
       this.processedImageData = this.processImageWithPalette(imageData);
       
-      // 프로젝트 데이터 저장
-      this.saveProjectData();
+      // 새 오버레이 객체 생성
+      const newOverlay = {
+        id: `overlay_${Date.now()}`,
+        name: file.name,
+        enabled: true,
+        opacity: 0.7,
+        originalImage: this.imageDataToDataURL(this.originalImageData),
+        anchor: anchorCoords,
+        chunkedTiles: chunkedTiles
+      };
+      
+      // projectManager를 통해 오버레이 추가
+      const project = projectManager.getProject(this.currentProjectId);
+      if (project) {
+        if (!project.data.overlays) {
+          project.data.overlays = [];
+        }
+        // 현재는 하나의 오버레이만 관리하도록 기존 것을 대체
+        project.data.overlays = [newOverlay];
+        await projectManager.saveProjects();
+        console.log('Wplace Plus: 새 오버레이가 프로젝트에 저장되었습니다.');
+      }
       
       return {
         original: this.originalImageData,
@@ -163,6 +211,11 @@ class ImageUploadManager {
       ...Array.from(this.selectedPaidColors).map(colorKeyToRgb)
     ];
 
+    // 선택된 색상이 없으면 원본 이미지를 그대로 반환
+    if (availableColors.length === 0) {
+      return new ImageData(data, width, height);
+    }
+
     for (let i = 0; i < data.length; i += 4) {
       const r = data[i];
       const g = data[i + 1];
@@ -185,6 +238,11 @@ class ImageUploadManager {
 
   // 가장 가까운 색상 찾기 (유클리드 거리)
   findClosestColor(r, g, b, palette) {
+    // 팔레트가 비어있거나 유효하지 않은 경우 원본 색상 반환
+    if (!palette || palette.length === 0) {
+      return [r, g, b];
+    }
+
     let minDistance = Infinity;
     let closestColor = palette[0];
 
@@ -216,6 +274,61 @@ class ImageUploadManager {
     this.saveProjectData();
   }
 
+  // 이미지를 타일 조각으로 사전 처리하는 함수
+  async preProcessImageForTiling(imageData, anchorCoords) {
+    if (!imageData || !anchorCoords) {
+      throw new Error('타일화 처리를 위한 이미지 데이터 또는 기준 좌표가 없습니다.');
+    }
+
+    const TILE_SIZE = 1000;
+    const { width, height } = imageData;
+    const { x: anchorX, y: anchorY } = anchorCoords;
+
+    const chunkedTiles = {};
+    const startTileX = Math.floor(anchorX / TILE_SIZE);
+    const startTileY = Math.floor(anchorY / TILE_SIZE);
+    const endTileX = Math.floor((anchorX + width - 1) / TILE_SIZE);
+    const endTileY = Math.floor((anchorY + height - 1) / TILE_SIZE);
+
+    const tempCanvas = document.createElement('canvas');
+    const tempCtx = tempCanvas.getContext('2d');
+    tempCanvas.width = width;
+    tempCanvas.height = height;
+    tempCtx.putImageData(imageData, 0, 0);
+
+    for (let ty = startTileY; ty <= endTileY; ty++) {
+      for (let tx = startTileX; tx <= endTileX; tx++) {
+        const tileOriginX = tx * TILE_SIZE;
+        const tileOriginY = ty * TILE_SIZE;
+
+        // 원본 이미지에서 현재 타일과 겹치는 영역 계산
+        const sx = Math.max(0, tileOriginX - anchorX);
+        const sy = Math.max(0, tileOriginY - anchorY);
+        const sWidth = Math.min(width - sx, TILE_SIZE - (anchorX - tileOriginX + sx));
+        const sHeight = Math.min(height - sy, TILE_SIZE - (anchorY - tileOriginY + sy));
+        
+        if (sWidth <= 0 || sHeight <= 0) continue;
+
+        // 타일 내에서 이미지가 그려질 위치
+        const dx = Math.max(0, anchorX - tileOriginX);
+        const dy = Math.max(0, anchorY - tileOriginY);
+        
+        const chunkCanvas = document.createElement('canvas');
+        chunkCanvas.width = TILE_SIZE;
+        chunkCanvas.height = TILE_SIZE;
+        const chunkCtx = chunkCanvas.getContext('2d');
+
+        // 원본 이미지의 해당 부분을 잘라내어 청크 캔버스에 그리기
+        chunkCtx.drawImage(tempCanvas, sx, sy, sWidth, sHeight, dx, dy, sWidth, sHeight);
+        
+        const tileKey = `${String(tx).padStart(4, '0')},${String(ty).padStart(4, '0')}`;
+        chunkedTiles[tileKey] = chunkCanvas.toDataURL('image/png');
+      }
+    }
+    
+    return chunkedTiles;
+  }
+
   // ImageData를 Canvas에 그리기
   drawImageToCanvas(imageData, canvas) {
     const ctx = canvas.getContext('2d');
@@ -239,29 +352,39 @@ class ImageUploadManager {
     }
 
     return `
-      <div class="space-y-3">
-        <div class="flex items-center justify-between">
-          <h5 class="text-sm font-semibold text-base-content">색상 팔레트</h5>
-          <div class="flex gap-2">
-            <button class="btn btn-sm btn-ghost" id="toggle-all-free">
+      <div class="wplace_plus_color_palette_section">
+        <!-- 헤더 섹션 -->
+        <div class="wplace_plus_palette_header">
+          <h5 class="wplace_plus_palette_title">색상 팔레트</h5>
+          <div class="wplace_plus_toggle_buttons">
+            <button class="btn btn-xs btn-ghost" id="toggle-all-free">
               무료 전체
             </button>
-            <button class="btn btn-sm btn-ghost" id="toggle-all-paid">
+            <button class="btn btn-xs btn-ghost" id="toggle-all-paid">
               유료 전체
             </button>
           </div>
         </div>
         
-        <div class="space-y-2">
-          <div>
-            <div class="text-xs text-base-content/70 mb-1">무료 색상</div>
+        <!-- 색상 그리드 섹션 -->
+        <div class="wplace_plus_color_sections">
+          <!-- 무료 색상 섹션 -->
+          <div class="wplace_plus_color_section">
+            <div class="wplace_plus_section_header">
+              <span class="wplace_plus_section_title">무료 색상</span>
+              <span class="wplace_plus_color_count" id="free-color-count">0/0</span>
+            </div>
             <div class="wplace_plus_color_grid_compact" id="free-color-grid">
               ${this.generateColorGridHTML(WPLACE_FREE, this.selectedFreeColors, 'free')}
             </div>
           </div>
           
-          <div>
-            <div class="text-xs text-base-content/70 mb-1">유료 색상</div>
+          <!-- 유료 색상 섹션 -->
+          <div class="wplace_plus_color_section">
+            <div class="wplace_plus_section_header">
+              <span class="wplace_plus_section_title">유료 색상</span>
+              <span class="wplace_plus_color_count" id="paid-color-count">0/0</span>
+            </div>
             <div class="wplace_plus_color_grid_compact" id="paid-color-grid">
               ${this.generateColorGridHTML(WPLACE_PAID, this.selectedPaidColors, 'paid')}
             </div>
@@ -340,6 +463,7 @@ class ImageUploadManager {
 
       // UI 업데이트
       this.updateColorPaletteUI(container);
+      this.updateColorCounts(container);
       
       // 이미지 다시 처리
       if (this.originalImageData) {
@@ -366,6 +490,7 @@ class ImageUploadManager {
           DEFAULT_FREE_KEYS.forEach(key => this.selectedFreeColors.add(key));
         }
         this.updateColorPaletteUI(container);
+        this.updateColorCounts(container);
         this.updateProcessedImage();
         this.saveProjectData();
       });
@@ -380,6 +505,7 @@ class ImageUploadManager {
           DEFAULT_PAID_KEYS.forEach(key => this.selectedPaidColors.add(key));
         }
         this.updateColorPaletteUI(container);
+        this.updateColorCounts(container);
         this.updateProcessedImage();
         this.saveProjectData();
       });
@@ -387,6 +513,9 @@ class ImageUploadManager {
 
     // 이벤트 설정 완료 표시
     container.dataset.eventsSetup = 'true';
+    
+    // 색상 팔레트가 로드된 후 개수 업데이트
+    this.updateColorCounts(container);
   }
 
   // 색상 팔레트 UI 업데이트
@@ -417,6 +546,27 @@ class ImageUploadManager {
     if (togglePaidBtn && typeof DEFAULT_PAID_KEYS !== 'undefined') {
       const allPaidSelected = DEFAULT_PAID_KEYS.every(key => this.selectedPaidColors.has(key));
       togglePaidBtn.textContent = allPaidSelected ? '유료 해제' : '유료 전체';
+    }
+
+    // 색상 개수 업데이트
+    this.updateColorCounts(container);
+  }
+
+  // 색상 개수 업데이트
+  updateColorCounts(container) {
+    const freeCountElement = container.querySelector('#free-color-count');
+    const paidCountElement = container.querySelector('#paid-color-count');
+    
+    if (freeCountElement) {
+      const freeCount = this.selectedFreeColors.size;
+      const totalFree = typeof WPLACE_FREE !== 'undefined' ? WPLACE_FREE.length : 0;
+      freeCountElement.textContent = `${freeCount}/${totalFree}`;
+    }
+    
+    if (paidCountElement) {
+      const paidCount = this.selectedPaidColors.size;
+      const totalPaid = typeof WPLACE_PAID !== 'undefined' ? WPLACE_PAID.length : 0;
+      paidCountElement.textContent = `${paidCount}/${totalPaid}`;
     }
   }
 

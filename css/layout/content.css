@@ -65,10 +65,6 @@
 
 /* 패널 섹션 */
 .wplace_plus_panel_section {
-  margin-bottom: var(--wplace-spacing-xl);
-}
-
-.wplace_plus_panel_section:last-child {
   margin-bottom: 0;
 }
 

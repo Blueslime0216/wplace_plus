@@ -1,5 +1,5 @@
 // 프로젝트 관리 드롭다운 생성 함수
-function createProjectDropdown(menuButton) {
+async function createProjectDropdown(menuButton) {
   // 기존 드롭다운이 있다면 제거
   const existingDropdown = document.querySelector('.wplace_plus_project_dropdown');
   if (existingDropdown) {
@@ -7,7 +7,8 @@ function createProjectDropdown(menuButton) {
   }
 
   // 프로젝트 목록 가져오기
-  const projects = projectManager.loadProjects();
+  await projectManager.loadProjects(); // 프로젝트 로드 대기
+  const projects = projectManager.projects; // 로드된 프로젝트 배열 사용
 
   // 드롭다운 생성
   const dropdown = document.createElement('div');
@@ -87,7 +88,7 @@ function setupProjectDropdownEvents(dropdown) {
   // 새 프로젝트 추가 버튼
   const addProjectBtn = dropdown.querySelector('#add-project-btn');
   if (addProjectBtn) {
-    addProjectBtn.addEventListener('click', () => {
+    addProjectBtn.addEventListener('click', async () => {
       const projectName = prompt('프로젝트 이름을 입력하세요:', `프로젝트 ${projectManager.projects.length + 1}`);
       if (projectName && projectName.trim()) {
         const newProject = projectManager.addProject(projectName.trim());
@@ -95,7 +96,7 @@ function setupProjectDropdownEvents(dropdown) {
         
         // 드롭다운 새로고침
         dropdown.remove();
-        createProjectDropdown(document.querySelector('.wplace_plus_menu_item[data-action="projects"]'));
+        await createProjectDropdown(document.querySelector('.wplace_plus_menu_item[data-action="projects"]'));
       }
     });
   }

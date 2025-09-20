@@ -5,6 +5,7 @@ console.log('Wplace Plus: 컨텐츠 스크립트가 로드되었습니다.');
 
 let menuAdded = false;
 let versionDisplayAdded = false;
+let isInitialized = false; // 초기화 플래그 추가
 let retryCount = 0;
 const maxRetries = 50; // 최대 50번 시도 (약 25초)
 let currentProjectDropdown = null;
@@ -45,8 +46,9 @@ function createVersionDisplay() {
 }
 
 // 열려있던 모달들 복원
-function restoreOpenModals() {
-  const projects = projectManager.loadProjects();
+async function restoreOpenModals() {
+  await projectManager.loadProjects(); // 먼저 프로젝트를 로드
+  const projects = projectManager.projects; // 로드된 프로젝트 배열 사용
   
   projects.forEach(project => {
     const ui = project.ui || {};
@@ -62,7 +64,7 @@ function restoreOpenModals() {
 }
 
 // 프로젝트 드롭다운 생성
-function createProjectDropdown(menuItem) {
+async function createProjectDropdown(menuItem) {
   console.log('Wplace Plus: createProjectDropdown 호출됨', menuItem);
   
   // projectManager가 아직 로드되지 않았을 수 있으므로 확인
@@ -84,7 +86,8 @@ function createProjectDropdown(menuItem) {
     dropdownHoverTimeout = null;
   }
 
-  const projects = projectManager.loadProjects();
+  await projectManager.loadProjects(); // 프로젝트 로드 대기
+  const projects = projectManager.projects; // 로드된 프로젝트 배열 사용
   console.log('Wplace Plus: 로드된 프로젝트 수:', projects.length, projects);
   
   const dropdown = document.createElement('div');
@@ -187,12 +190,13 @@ function createProjectDropdown(menuItem) {
   });
 
   // 드롭다운 이벤트 설정
-  dropdown.addEventListener('click', (e) => {
+  dropdown.addEventListener('click', async (e) => {
     const action = e.target.closest('[data-action]')?.dataset.action;
     const projectId = e.target.closest('[data-project-id]')?.dataset.projectId;
     
     if (action === 'create-project') {
-      const currentProjects = projectManager.loadProjects();
+      await projectManager.loadProjects(); // 프로젝트 로드 대기
+      const currentProjects = projectManager.projects; // 로드된 프로젝트 배열 사용
       const name = prompt('프로젝트 이름을 입력하세요:', `프로젝트 ${currentProjects.length + 1}`);
       if (name) {
         const project = projectManager.addProject(name);
@@ -216,7 +220,7 @@ function createProjectDropdown(menuItem) {
           currentProjectDropdown = null;
         }
         // 드롭다운 다시 생성
-        createProjectDropdown(menuItem);
+        await createProjectDropdown(menuItem);
       }
     }
   });
@@ -237,15 +241,44 @@ function createProjectDropdown(menuItem) {
   }, 100);
 }
 
+// 메뉴 DOM 요소를 생성하는 함수
+function createMenuElement() {
+  const menu = document.createElement('div');
+  menu.className = 'wplace_plus_menu';
+  menu.innerHTML = `
+    <button class="wplace_plus_main_btn" id="wplace-plus-toggle">
+      <span class="wplace_plus_btn_text">W+</span>
+    </button>
+    <div class="wplace_plus_dropdown" id="wplace-plus-dropdown">
+      <div class="wplace_plus_menu_item" data-action="projects">
+        <span class="wplace_plus_menu_icon">📁</span>
+        <span class="wplace_plus_menu_text">프로젝트 관리</span>
+      </div>
+      <div class="wplace_plus_menu_item" data-action="autotool">
+        <span class="wplace_plus_menu_icon">🔧</span>
+        <span class="wplace_plus_menu_text">반자동 도구</span>
+      </div>
+    </div>
+  `;
+  return menu;
+}
+
 // DOM이 완전히 로드된 후 실행
-function initWplacePlus() {
+async function initWplacePlus() {
+  if (isInitialized) {
+    console.log('Wplace Plus: 이미 초기화되었습니다.');
+    return;
+  }
+  isInitialized = true;
+  console.log('Wplace Plus: 초기화 시작...');
+
   // 버전 표시 추가
   if (!versionDisplayAdded) {
     createVersionDisplay();
   }
 
   // 열려있던 모달들 복원
-  restoreOpenModals();
+  await restoreOpenModals();
 
   // 이미 메뉴가 추가되었는지 확인
   const existingMenuCheck = document.querySelector('.wplace_plus_menu');
@@ -297,23 +330,7 @@ function initWplacePlus() {
   }
 
   // Wplace Plus 메뉴 생성 (W+ 버튼 + 드롭다운)
-  const menu = document.createElement('div');
-  menu.className = 'wplace_plus_menu';
-  menu.innerHTML = `
-    <button class="wplace_plus_main_btn" id="wplace-plus-toggle">
-      <span class="wplace_plus_btn_text">W+</span>
-    </button>
-    <div class="wplace_plus_dropdown" id="wplace-plus-dropdown">
-      <div class="wplace_plus_menu_item" data-action="projects">
-        <span class="wplace_plus_menu_icon">📁</span>
-        <span class="wplace_plus_menu_text">프로젝트 관리</span>
-      </div>
-      <div class="wplace_plus_menu_item" data-action="autotool">
-        <span class="wplace_plus_menu_icon">🔧</span>
-        <span class="wplace_plus_menu_text">반자동 도구</span>
-      </div>
-    </div>
-  `;
+  const menu = createMenuElement();
 
   // 메뉴를 대상 div에 추가
   targetDiv.appendChild(menu);
@@ -389,8 +406,8 @@ function setupMenuEvents(menu) {
         if (dropdownHoverTimeout) clearTimeout(dropdownHoverTimeout);
         
         // 약간의 지연 후 드롭다운 생성
-        hoverTimeout = setTimeout(() => {
-          createProjectDropdown(item);
+        hoverTimeout = setTimeout(async () => {
+          await createProjectDropdown(item);
         }, 100);
       });
       
@@ -437,9 +454,12 @@ function checkAndRestoreMenu() {
   const existingMenu = document.querySelector('.wplace_plus_menu');
   const targetDiv = document.querySelector('.absolute.left-2.top-2.z-30.flex.flex-col.gap-3');
   
-  if (!existingMenu && targetDiv) {
+  if (!existingMenu && targetDiv && isInitialized) {
     console.log('Wplace Plus: 메뉴가 사라진 것을 감지, 재추가합니다.');
-    initWplacePlus();
+    // initWplacePlus() 대신 메뉴만 다시 생성하도록 수정
+    const menu = createMenuElement();
+    targetDiv.appendChild(menu);
+    setupMenuEvents(menu);
   }
 }
 
@@ -478,6 +498,7 @@ const domObserver = new MutationObserver((mutations) => {
   if (url !== currentUrl) {
     currentUrl = url;
     console.log('Wplace Plus: URL 변경 감지, 재초기화');
+    isInitialized = false; // URL이 변경되면 재초기화 허용
     setTimeout(initWplacePlus, 1000);
   }
 });

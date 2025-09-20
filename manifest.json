@@ -5,7 +5,8 @@
   "description": "wplace.live를 위한 고급 오버레이 및 픽셀 관리 도구",
   "permissions": [
     "activeTab",
-    "storage"
+    "storage",
+    "scripting"
   ],
   "host_permissions": [
     "https://wplace.live/*"
@@ -19,6 +20,8 @@
         "js/utils/color-palette.js",
         "js/features/image-upload.js",
         "js/core/project-manager.js",
+        "js/features/position-capture.js",
+        "js/features/overlay-manager.js",
         "js/features/projects.js",
         "js/core/core.js"
       ],
@@ -32,7 +35,19 @@
         "css/components/resize.css",
         "css/components/image-upload.css"
       ],
-      "run_at": "document_start"
+      "run_at": "document_end"
+    }
+  ],
+  "background": {
+    "service_worker": "js/background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "js/features/injector.js",
+        "js/features/fetch-hook.js"
+      ],
+      "matches": ["https://wplace.live/*"]
     }
   ],
   "action": {
@@ -40,3 +55,4 @@
     "default_title": "Wplace Plus"
   }
 }
+
