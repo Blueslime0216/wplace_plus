@@ -322,3 +322,113 @@
   background: var(--wplace-border-primary);
   margin: var(--wplace-spacing-xs) 0;
 }
+
+/* 공유 섹션 스타일 */
+.wplace_plus_share_section {
+  margin-bottom: var(--wplace-spacing-lg);
+  padding: var(--wplace-spacing-md);
+  border: 1px solid var(--wplace-border-primary);
+  border-radius: var(--wplace-radius-lg);
+  background: var(--wplace-bg-secondary);
+}
+
+.wplace_plus_share_section:last-child {
+  margin-bottom: 0;
+}
+
+.wplace_plus_share_header {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--wplace-spacing-sm);
+}
+
+.wplace_plus_share_icon {
+  font-size: var(--wplace-text-lg);
+  margin-right: var(--wplace-spacing-sm);
+}
+
+.wplace_plus_share_title {
+  font-size: var(--wplace-text-md);
+  font-weight: var(--wplace-font-semibold);
+  color: var(--wplace-text-primary);
+}
+
+.wplace_plus_share_description {
+  margin: 0 0 var(--wplace-spacing-md) 0;
+  font-size: var(--wplace-text-sm);
+  color: var(--wplace-text-secondary);
+  line-height: 1.5;
+}
+
+.wplace_plus_divider {
+  height: 1px;
+  background: var(--wplace-border-primary);
+  margin: var(--wplace-spacing-lg) 0;
+}
+
+/* 프로젝트 정보 표시 */
+.wplace_plus_project_info {
+  margin-top: var(--wplace-spacing-lg);
+  padding: var(--wplace-spacing-md);
+  border: 1px solid var(--wplace-border-primary);
+  border-radius: var(--wplace-radius-lg);
+  background: var(--wplace-bg-primary);
+}
+
+.wplace_plus_info_item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--wplace-spacing-xs) 0;
+  border-bottom: 1px solid var(--wplace-border-primary);
+}
+
+.wplace_plus_info_item:last-child {
+  border-bottom: none;
+}
+
+.wplace_plus_info_label {
+  font-size: var(--wplace-text-sm);
+  font-weight: var(--wplace-font-medium);
+  color: var(--wplace-text-secondary);
+}
+
+.wplace_plus_info_value {
+  font-size: var(--wplace-text-sm);
+  color: var(--wplace-text-primary);
+  font-weight: var(--wplace-font-medium);
+}
+
+/* 알림 스타일 */
+.wplace_plus_notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 99999;
+  max-width: 300px;
+  word-wrap: break-word;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+
+.wplace_plus_notification_success {
+  background-color: #10b981;
+}
+
+.wplace_plus_notification_error {
+  background-color: #ef4444;
+}
+
+.wplace_plus_notification_info {
+  background-color: #3b82f6;
+}
+
+.wplace_plus_notification_warning {
+  background-color: #f59e0b;
+}
